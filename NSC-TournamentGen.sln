@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.WebApi", "NSC-TournamentGen.WebApi\NSC-TournamentGen.WebApi.csproj", "{5D646F61-E22C-4BB6-B6DF-AEBD9FFA38D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSC-TournamentGen.Core", "NSC-TournamentGen.Core", "{C31BE2E9-9560-4271-A4B8-B67479916E25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSC-TournamentGen.Infrastructure", "NSC-TournamentGen.Infrastructure", "{90417528-AC08-45CC-8869-CA769ED76535}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSC-TournamentGen.Presentation", "NSC-TournamentGen.Presentation", "{E665D16C-D6F1-4471-B7D8-74A0FFE675FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Core", "NSC-TournamentGen.Core\NSC-TournamentGen.Core\NSC-TournamentGen.Core.csproj", "{867D12A6-BF9E-4A22-965B-030BFFD5E88C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Domain", "NSC-TournamentGen.Core\NSC-TournamentGen.Domain\NSC-TournamentGen.Domain.csproj", "{0462A81F-50F9-4314-B1FC-C4002DF8D6B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSC-TournamentGen.Core.Test", "NSC-TournamentGen.Core.Test", "{DCF69CE9-DC1D-4954-B288-36F1FBB2D25A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Core.Test", "NSC-TournamentGen.Core.Test\NSC-TournamentGen.Core.Test\NSC-TournamentGen.Core.Test.csproj", "{6C72F048-7E66-4961-B514-3ACF79E99F9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Domain.Test", "NSC-TournamentGen.Core.Test\NSC-TournamentGen.Domain.Test\NSC-TournamentGen.Domain.Test.csproj", "{CD78B9DC-35B5-4FEE-AB2A-739680800CBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.DataAccess", "NSC-TournamentGen.DataAccess\NSC-TournamentGen.DataAccess.csproj", "{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D646F61-E22C-4BB6-B6DF-AEBD9FFA38D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D646F61-E22C-4BB6-B6DF-AEBD9FFA38D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D646F61-E22C-4BB6-B6DF-AEBD9FFA38D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D646F61-E22C-4BB6-B6DF-AEBD9FFA38D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{867D12A6-BF9E-4A22-965B-030BFFD5E88C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{867D12A6-BF9E-4A22-965B-030BFFD5E88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{867D12A6-BF9E-4A22-965B-030BFFD5E88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{867D12A6-BF9E-4A22-965B-030BFFD5E88C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0462A81F-50F9-4314-B1FC-C4002DF8D6B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0462A81F-50F9-4314-B1FC-C4002DF8D6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0462A81F-50F9-4314-B1FC-C4002DF8D6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0462A81F-50F9-4314-B1FC-C4002DF8D6B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C72F048-7E66-4961-B514-3ACF79E99F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C72F048-7E66-4961-B514-3ACF79E99F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C72F048-7E66-4961-B514-3ACF79E99F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C72F048-7E66-4961-B514-3ACF79E99F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD78B9DC-35B5-4FEE-AB2A-739680800CBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD78B9DC-35B5-4FEE-AB2A-739680800CBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD78B9DC-35B5-4FEE-AB2A-739680800CBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD78B9DC-35B5-4FEE-AB2A-739680800CBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{867D12A6-BF9E-4A22-965B-030BFFD5E88C} = {C31BE2E9-9560-4271-A4B8-B67479916E25}
+		{0462A81F-50F9-4314-B1FC-C4002DF8D6B7} = {C31BE2E9-9560-4271-A4B8-B67479916E25}
+		{6C72F048-7E66-4961-B514-3ACF79E99F9C} = {DCF69CE9-DC1D-4954-B288-36F1FBB2D25A}
+		{CD78B9DC-35B5-4FEE-AB2A-739680800CBF} = {DCF69CE9-DC1D-4954-B288-36F1FBB2D25A}
+		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA} = {90417528-AC08-45CC-8869-CA769ED76535}
+	EndGlobalSection
+EndGlobal

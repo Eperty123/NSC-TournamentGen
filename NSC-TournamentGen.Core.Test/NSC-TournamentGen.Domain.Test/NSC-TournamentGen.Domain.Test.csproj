@@ -21,8 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="IRepositories" />
-      <Folder Include="Services" />
+      <ProjectReference Include="..\NSC-TournamentGen.Core.Test\NSC-TournamentGen.Core.Test.csproj" />
     </ItemGroup>
 
 </Project>

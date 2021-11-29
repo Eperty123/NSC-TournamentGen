@@ -30,12 +30,15 @@ namespace NSC_TournamentGen.Core.Test.IServices
         public void IUserService_GetAllUsers()
         {
             var serviceMock = new Mock<IUserService>();
-            serviceMock.Setup(sevice => sevice.GetAllUsers()).Returns(new List<User>());
-            Assert.NotNull(serviceMock.Object);
+            serviceMock
+                .Setup(sevice => sevice.GetAllUsers())
+                .Returns(new List<User>());
+            Assert.NotNull(serviceMock.Object.GetAllUsers());
             
         }
-
-
+        
+       
+        
     }
 }
 

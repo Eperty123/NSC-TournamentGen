@@ -6,12 +6,20 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.12" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Controllers" />
-      <Folder Include="Dtos" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\NSC-TournamentGen.Core\NSC-TournamentGen.Core\NSC-TournamentGen.Core.csproj" />
+      <ProjectReference Include="..\NSC-TournamentGen.Core\NSC-TournamentGen.Domain\NSC-TournamentGen.Domain.csproj" />
+      <ProjectReference Include="..\NSC-TournamentGen.DataAccess\NSC-TournamentGen.DataAccess.csproj" />
     </ItemGroup>
 
 </Project>

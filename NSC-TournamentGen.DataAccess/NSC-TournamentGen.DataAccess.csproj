@@ -6,8 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Entities" />
-      <Folder Include="Repositories" />
+      <ProjectReference Include="..\NSC-TournamentGen.Core\NSC-TournamentGen.Domain\NSC-TournamentGen.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
     </ItemGroup>
 
 </Project>

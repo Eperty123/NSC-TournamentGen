@@ -6,8 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="IRepositories" />
-      <Folder Include="Services" />
+      <ProjectReference Include="..\NSC-TournamentGen.Core\NSC-TournamentGen.Core.csproj" />
     </ItemGroup>
 
 </Project>

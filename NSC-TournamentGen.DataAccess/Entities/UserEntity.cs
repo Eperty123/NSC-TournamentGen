@@ -1,6 +1,6 @@
-﻿namespace NSC_TournamentGen.Core.Models
+﻿namespace NSC_TournamentGen.DataAccess.Entities
 {
-    public class User
+    public class UserEntity
     {
         public int Id { get; set; }
         public string Username { get; set; }

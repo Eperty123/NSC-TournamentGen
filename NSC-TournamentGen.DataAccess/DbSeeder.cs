@@ -10,13 +10,14 @@ namespace NSC_TournamentGen.DataAccess
         {
             _ctx = ctx;
         }
+
         public void SeedDevelopment()
         {
             _ctx.Database.EnsureDeleted();
             _ctx.Database.EnsureCreated();
-            _ctx.Users.Add(new UserEntity() {Username = "Niko", Password = "dev"});
-            _ctx.Users.Add(new UserEntity() {Username = "Svend", Password = "dev"});
-            _ctx.Users.Add(new UserEntity() {Username=  "Carlo", Password = "dev"});
+            _ctx.User.Add(new UserEntity {Id = 1,Username = "Svend",Password = "ost"});
+            _ctx.User.Add(new UserEntity {Id = 2,Username = "Niko",Password = "ost"});
+            _ctx.User.Add(new UserEntity {Id = 3,Username = "Carlo",Password = "ost"});
          
             _ctx.SaveChanges();
         }

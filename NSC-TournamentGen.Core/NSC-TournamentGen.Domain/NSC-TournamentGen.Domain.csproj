@@ -9,4 +9,9 @@
       <ProjectReference Include="..\NSC-TournamentGen.Core\NSC-TournamentGen.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.12" />
+    </ItemGroup>
+
 </Project>

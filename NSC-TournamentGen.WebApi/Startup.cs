@@ -50,7 +50,7 @@ namespace NSC_TournamentGen
             services.AddScoped<IUserService, UserService>();
             services.AddDbContext<MainDbContext>(opt =>
             {
-                opt.UseSqlite("Data Source=database.db");
+                opt.UseSqlite("Data Source=main.db");
             });
         }
 
@@ -62,14 +62,13 @@ namespace NSC_TournamentGen
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSC_TournamentGen v1"));
-                app.UseCors("dev-policy"); 
                 new DbSeeder(ctx).SeedDevelopment();
             }
             else
             {
                 new DbSeeder(ctx).SeedProduction();
-                
             }
+            
 
             app.UseHttpsRedirection();
 

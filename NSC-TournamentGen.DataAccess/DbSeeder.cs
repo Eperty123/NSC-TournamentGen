@@ -15,9 +15,9 @@ namespace NSC_TournamentGen.DataAccess
         {
             _ctx.Database.EnsureDeleted();
             _ctx.Database.EnsureCreated();
-            _ctx.User.Add(new UserEntity {Id = 1,UserName = "Svend",Password = "ost"});
-            _ctx.User.Add(new UserEntity {Id = 2,UserName = "Niko",Password = "ost"});
-            _ctx.User.Add(new UserEntity {Id = 3,UserName = "Carlo",Password = "ost"});
+            _ctx.User.Add(new UserEntity {Id = 1,Username = "Svend",Password = "ost"});
+            _ctx.User.Add(new UserEntity {Id = 2,Username = "Niko",Password = "ost"});
+            _ctx.User.Add(new UserEntity {Id = 3,Username = "Carlo",Password = "ost"});
          
             _ctx.SaveChanges();
         }

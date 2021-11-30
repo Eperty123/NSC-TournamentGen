@@ -18,5 +18,25 @@ namespace NSC_TournamentGen.Domain.Services
         {
             return _userRepository.ReadAll();
         }
+
+        public User CreateUser(string username, string password)
+        {
+            return _userRepository.CreateUser(username, password);
+        }
+
+        public User GetUser(int id)
+        {
+            return _userRepository.ReadUser(id);
+        }
+
+        public User DeleteUser(int id)
+        {
+            return _userRepository.DeleteUser(id);
+        }
+
+        public object UpdateUser(int id, User user)
+        {
+            return _userRepository.UpdateUser(id, user);
+        }
     }
 }

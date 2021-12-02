@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NSC_TournamentGen.Core.Models;
 using NSC_TournamentGen.Domain.Services;
 using NSC_TournamentGen.Dtos;
 
@@ -33,7 +34,8 @@ namespace NSC_TournamentGen.Controllers
             {
                 Id = foundTournament.Id,
                 Name = foundTournament.Name,
-                Participants = foundTournament.Participants
+                Participants = foundTournament.Participants,
+                Type = foundTournament.Type
             });
             else return StatusCode(500, "User not found.");
         }

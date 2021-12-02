@@ -21,7 +21,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 Name = t.Name,
                 Participants = t.Participants,
                 Type = t.Type
-            }).FirstOrDefault(t => id == t.Id);
+            }).FirstOrDefault(t => t.Id == id);
         }
     }
 }

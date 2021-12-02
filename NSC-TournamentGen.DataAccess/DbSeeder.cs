@@ -1,4 +1,5 @@
-﻿using NSC_TournamentGen.DataAccess.Entities;
+﻿using NSC_TournamentGen.Core.Models;
+using NSC_TournamentGen.DataAccess.Entities;
 
 namespace NSC_TournamentGen.DataAccess
 {
@@ -18,9 +19,9 @@ namespace NSC_TournamentGen.DataAccess
             _ctx.User.Add(new UserEntity {Id = 1,Username = "Svend",Password = "ost"});
             _ctx.User.Add(new UserEntity {Id = 2,Username = "Niko",Password = "ost"});
             _ctx.User.Add(new UserEntity {Id = 3,Username = "Carlo",Password = "ost"});
-            _ctx.Tournament.Add(new TournamentEntity() {Id = 1,Name = "Svend",Participants = "lol"});
-            _ctx.Tournament.Add(new TournamentEntity() {Id = 2,Name = "Sick Tournament",Participants = "lol"});
-            _ctx.Tournament.Add(new TournamentEntity() {Id = 3,Name = "HentaiTournamentNSFW",Participants = "carlo"});
+            _ctx.Tournament.Add(new TournamentEntity() {Id = 1,Name = "Svend",Participants = "lol",Type = TournamentType.SingleElimination});
+            _ctx.Tournament.Add(new TournamentEntity() {Id = 2,Name = "Sick Tournament",Participants = "lol",Type = TournamentType.SingleElimination});
+            _ctx.Tournament.Add(new TournamentEntity() {Id = 3,Name = "HentaiTournamentNSFW",Participants = "carlo",Type = TournamentType.SingleElimination});
             
             
          

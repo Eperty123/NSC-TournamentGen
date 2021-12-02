@@ -62,6 +62,7 @@ namespace NSC_TournamentGen
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSC_TournamentGen v1"));
+                app.UseCors("dev-policy");
                 new DbSeeder(ctx).SeedDevelopment();
             }
             else

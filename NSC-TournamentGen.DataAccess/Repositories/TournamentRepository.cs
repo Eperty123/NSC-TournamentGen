@@ -1,4 +1,5 @@
-﻿using NSC_TournamentGen.Core.Models;
+﻿using System.Linq;
+using NSC_TournamentGen.Core.Models;
 using NSC_TournamentGen.Domain.IRepositories;
 
 namespace NSC_TournamentGen.DataAccess.Repositories
@@ -14,7 +15,13 @@ namespace NSC_TournamentGen.DataAccess.Repositories
         
         public Tournament ReadTournament(int id)
         {
-            throw new System.NotImplementedException();
+            return _ctx.Tournament.Select(t => new Tournament
+            {
+                Id = t.Id,
+                Name = t.Name,
+                Participants = t.Participants,
+                Type = t.Type
+            }).FirstOrDefault(t => id == t.Id);
         }
     }
 }

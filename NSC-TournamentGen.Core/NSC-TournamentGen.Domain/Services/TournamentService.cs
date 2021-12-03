@@ -16,7 +16,7 @@ namespace NSC_TournamentGen.Domain.Services
         
         public List<Tournament> GetAllTournaments()
         {
-            throw new System.NotImplementedException();
+            return _tournamentRepository.ReadAllTournaments();
         }
 
         public Tournament GetTournament(int id)

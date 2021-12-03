@@ -5,6 +5,7 @@ namespace NSC_TournamentGen.Core.IServices
 {
     public interface ITournamentService
     {
+        Tournament GetTournament(int id);
         List<Tournament> GetAllTournaments();
     }
 }

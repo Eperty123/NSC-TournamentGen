@@ -48,6 +48,8 @@ namespace NSC_TournamentGen
                     }));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddScoped<ITournamentService, TournamentService>();
             services.AddDbContext<MainDbContext>(opt =>
             {
                 opt.UseSqlite("Data Source=main.db");

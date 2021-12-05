@@ -19,6 +19,16 @@ namespace NSC_TournamentGen.Domain.Services
             return _tournamentRepository.ReadAllTournaments();
         }
 
+        public Tournament DeleteTournament(int id)
+        {
+            return _tournamentRepository.DeleteTournament(id);
+        }
+
+        public Tournament UpdateTournament(int id, Tournament tournament)
+        {
+            return _tournamentRepository.UpdateTournament(id, tournament);
+        }
+
         public Tournament GetTournament(int id)
         {
             return _tournamentRepository.ReadTournament(id);

@@ -28,6 +28,32 @@ namespace NSC_TournamentGen.Core.Test.IServices
             Assert.NotNull(serviceMock.Object.GetAllTournaments());
 
         }
+        [Fact]
+        public void ITournamentService_GetTournament_NotNull()
+        {
+            var serviceMock = new Mock<ITournamentService>();
+            serviceMock.Setup(service => service.GetTournament(1)).Returns(new Tournament());
+            var foundTournament = serviceMock.Object.GetTournament(1);
+
+            Assert.NotNull(foundTournament);
+        }
+        [Fact]
+        public void ITournamentService_DeleteTournament_NotNull()
+        {
+            var serviceMock = new Mock<ITournamentService>();
+            serviceMock.Setup(service => service.DeleteTournament(1)).Returns(new Tournament());
+            var deletedTournament = serviceMock.Object.DeleteTournament(1);
+            Assert.NotNull(deletedTournament);
+        }
+        [Fact]
+        public void ITournamentService_UpdateTournament_NotNull()
+        {
+            var serviceMock = new Mock<ITournamentService>();
+            var replacement = new Tournament() { Name  = "test", Participants = "alot", Type = TournamentType.SingleElimination};
+            serviceMock.Setup(service => service.UpdateTournament(1, replacement)).Returns(new Tournament());
+            var updatedTournament = serviceMock.Object.UpdateTournament(1, replacement);
+            Assert.NotNull(updatedTournament);
+        }
         
     }
 }

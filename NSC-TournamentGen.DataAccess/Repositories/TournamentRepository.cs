@@ -48,7 +48,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 // Save changes to the database.
                 _ctx.SaveChanges();
 
-                // Return a *new* User instance from the found user.
+                // Return a *new* Tournament instance from the found tournament.
                 return new Tournament { Id = foundTournament.Id, Name = foundTournament.Name, Participants = foundTournament.Participants, Type = foundTournament.Type};
             }
 
@@ -67,18 +67,18 @@ namespace NSC_TournamentGen.DataAccess.Repositories
 
             if (foundTournament != null)
             {
-                // Make changes to the found user.
+                // Make changes to the found tournament.
                 foundTournament.Name = tournament.Name;
                 foundTournament.Participants = tournament.Participants;
                 foundTournament.Type = tournament.Type;
 
-                // Update the found user in the database.
+                // Update the found tournament in the database.
                 _ctx.Tournament.Update(foundTournament);
 
                 // Save changes to the database.
                 _ctx.SaveChanges();
 
-                // Return a *new* User instance from the updated user.
+                // Return a *new* Tournament instance from the updated tournament.
                 return new Tournament { Id = foundTournament.Id, Name = foundTournament.Name, Participants = foundTournament.Participants, Type = foundTournament.Type};
             }
 

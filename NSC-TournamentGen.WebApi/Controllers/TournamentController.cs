@@ -88,7 +88,7 @@ namespace NSC_TournamentGen.Controllers
                 return StatusCode(500, "Failed to delete Tournament");
             }
         }
-        // PUT api/User/5 -- Update
+        // PUT api/Tournament/5 -- Update
         [HttpPut("{id}")]
         public ActionResult<TournamentDto> Put(int id, [FromBody] TournamentDto tournament)
         {
@@ -101,7 +101,7 @@ namespace NSC_TournamentGen.Controllers
                 var foundTournament = _tournamentService.GetTournament(id);
                 if (foundTournament != null)
                 {
-                    // Update the values of the found user with the replacement.
+                    // Update the values of the found tournament with the replacement.
                     foundTournament.Name = tournament.Name;
                     foundTournament.Participants = tournament.Participants;
                     foundTournament.Type = tournament.Type;
@@ -109,7 +109,7 @@ namespace NSC_TournamentGen.Controllers
                     // Update the replacement's id with the found one.
                     tournament.Id = foundTournament.Id;
 
-                    // Now update the user.
+                    // Now update the tournament.
                     var updatedTournament = _tournamentService.UpdateTournament(id, foundTournament);
                     if (updatedTournament != null) return Ok(tournament);
                 }

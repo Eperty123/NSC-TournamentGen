@@ -35,5 +35,54 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 Type = t.Type,
             }).ToList();
         }
+
+        public Tournament DeleteTournament(int id)
+        {
+            var foundTournament = _ctx.Tournament.FirstOrDefault(x => x.Id == id);
+
+            if (foundTournament != null)
+            {
+                // Remove from the database.
+                _ctx.Tournament.Remove(foundTournament);
+
+                // Save changes to the database.
+                _ctx.SaveChanges();
+
+                // Return a *new* Tournament instance from the found tournament.
+                return new Tournament { Id = foundTournament.Id, Name = foundTournament.Name, Participants = foundTournament.Participants, Type = foundTournament.Type};
+            }
+
+            // None found, return null.
+            return null;
+        }
+
+        public Tournament UpdateTournament(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Tournament UpdateTournament(int id, Tournament tournament)
+        {
+            var foundTournament = _ctx.Tournament.FirstOrDefault(x => x.Id == id);
+
+            if (foundTournament != null)
+            {
+                // Make changes to the found tournament.
+                foundTournament.Name = tournament.Name;
+                foundTournament.Participants = tournament.Participants;
+                foundTournament.Type = tournament.Type;
+
+                // Update the found tournament in the database.
+                _ctx.Tournament.Update(foundTournament);
+
+                // Save changes to the database.
+                _ctx.SaveChanges();
+
+                // Return a *new* Tournament instance from the updated tournament.
+                return new Tournament { Id = foundTournament.Id, Name = foundTournament.Name, Participants = foundTournament.Participants, Type = foundTournament.Type};
+            }
+
+            return null;
+        }
     }
 }

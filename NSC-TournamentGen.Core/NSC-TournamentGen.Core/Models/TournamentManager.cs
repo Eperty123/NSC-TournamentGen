@@ -122,12 +122,12 @@ namespace NSC_TournamentGen.Core.Models
         
         public List<string> MakeRandomList(List<string> participants)
         {
-            var rngList = new List<string>(); 
+            
             var random = new Random();
             var testList = participants.OrderBy(item => random.Next());
             
             
-            return rngList = testList.ToList();
+            return testList.ToList();
         }
         
         

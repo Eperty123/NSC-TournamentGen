@@ -7,10 +7,10 @@ namespace NSC_TournamentGen.Core.Models
 {
     public class TournamentManager
     {
-        private int _tournamentNumber;
-        private int _amountOfBracket;
-        private int _amountOfRounds;
-        private Dictionary<int, List<Bracket>> _bracketsDictionary;
+        public int _tournamentNumber;
+        public int _amountOfBracket;
+        public int _amountOfRounds;
+        public Dictionary<int, List<Bracket>> _bracketsDictionary;
         
         
         
@@ -32,7 +32,7 @@ namespace NSC_TournamentGen.Core.Models
             var counter = 0;
             _bracketsDictionary = new Dictionary<int, List<Bracket>>();
             
-            
+            /*
             // tilføjer preBacket til Dictionary.
             if (!NoPreRounds(amountOfParticipants))
             {
@@ -52,13 +52,14 @@ namespace NSC_TournamentGen.Core.Models
                 _bracketsDictionary.Add(0, bracketslist);
             }
             // tilføjer alle MainBracket til Dictionary
+            */
             
             while (aor > 0)
             {
                 var bracketslist = new List<Bracket>();
                 if (NoPreRounds(amountOfParticipants))
                 {
-                    for (int i = 0; i < _tournamentNumber/2; i++)
+                    for (int i = 0; i < aor; i++)
                     {
                     
                         var bracket = new Bracket
@@ -112,7 +113,7 @@ namespace NSC_TournamentGen.Core.Models
 
             }
 
-            if (_bracketsDictionary.Count == _amountOfBracket)
+            if (_bracketsDictionary.Count != _amountOfRounds)
             {
                 throw new Exception(
                     "Antallet af bracket i dictionaory stemmer ikke over ens med calculateAmountOfBracket ");

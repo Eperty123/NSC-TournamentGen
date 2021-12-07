@@ -14,7 +14,7 @@ namespace NSC_TournamentGen.Core.Test
     {
 
         [Fact]
-        void TournamentManager_CanGenerateSingleElimination()
+        void TournamentManager_CanGenerateSingleEliminationWithFourParticipants()
         {
             var tInput = new TournamentInput()
             {
@@ -23,9 +23,24 @@ namespace NSC_TournamentGen.Core.Test
             var participantList = tInput.Participants.Split('\n').ToList();
             tInput.AmountOfParticipants = participantList.Count;
             var manager = new TournamentManager();
-            manager.GenerateBrackets(tInput.AmountOfParticipants, participantList);
+            manager.MakeBracketsForTournament(tInput, participantList);
             Debug.WriteLine($"Brackets: {manager._bracketsDictionary.Count}");
-            Assert.NotEmpty(manager._bracketsDictionary);
+            Assert.Equal(expected:3,manager._amountOfBracket);
+        }
+        
+        [Fact]
+        void TournamentManager_CanGenerateSingleEliminationWithTenParticipants()
+        {
+            var tInput = new TournamentInput()
+            {
+                Participants = "Svend\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus"
+            };
+            var participantList = tInput.Participants.Split('\n').ToList();
+            tInput.AmountOfParticipants = participantList.Count;
+            var manager = new TournamentManager();
+            manager.MakeBracketsForTournament(tInput, participantList);
+            Debug.WriteLine($"Brackets: {manager._bracketsDictionary.Count}");
+            Assert.Equal(expected:9,manager._amountOfBracket);
         }
     }
 }

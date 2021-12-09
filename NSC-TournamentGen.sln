@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.WebApi", "NSC-TournamentGen.WebApi\NSC-TournamentGen.WebApi.csproj", "{5D646F61-E22C-4BB6-B6DF-AEBD9FFA38D2}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSC-TournamentGen.WebApi", "NSC-TournamentGen.WebApi\NSC-TournamentGen.WebApi.csproj", "{5D646F61-E22C-4BB6-B6DF-AEBD9FFA38D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSC-TournamentGen.Core", "NSC-TournamentGen.Core", "{C31BE2E9-9560-4271-A4B8-B67479916E25}"
 EndProject
@@ -8,17 +11,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSC-TournamentGen.Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSC-TournamentGen.Presentation", "NSC-TournamentGen.Presentation", "{E665D16C-D6F1-4471-B7D8-74A0FFE675FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Core", "NSC-TournamentGen.Core\NSC-TournamentGen.Core\NSC-TournamentGen.Core.csproj", "{867D12A6-BF9E-4A22-965B-030BFFD5E88C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSC-TournamentGen.Core", "NSC-TournamentGen.Core\NSC-TournamentGen.Core\NSC-TournamentGen.Core.csproj", "{867D12A6-BF9E-4A22-965B-030BFFD5E88C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Domain", "NSC-TournamentGen.Core\NSC-TournamentGen.Domain\NSC-TournamentGen.Domain.csproj", "{0462A81F-50F9-4314-B1FC-C4002DF8D6B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSC-TournamentGen.Domain", "NSC-TournamentGen.Core\NSC-TournamentGen.Domain\NSC-TournamentGen.Domain.csproj", "{0462A81F-50F9-4314-B1FC-C4002DF8D6B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSC-TournamentGen.Core.Test", "NSC-TournamentGen.Core.Test", "{DCF69CE9-DC1D-4954-B288-36F1FBB2D25A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Core.Test", "NSC-TournamentGen.Core.Test\NSC-TournamentGen.Core.Test\NSC-TournamentGen.Core.Test.csproj", "{6C72F048-7E66-4961-B514-3ACF79E99F9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSC-TournamentGen.Core.Test", "NSC-TournamentGen.Core.Test\NSC-TournamentGen.Core.Test\NSC-TournamentGen.Core.Test.csproj", "{6C72F048-7E66-4961-B514-3ACF79E99F9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Domain.Test", "NSC-TournamentGen.Core.Test\NSC-TournamentGen.Domain.Test\NSC-TournamentGen.Domain.Test.csproj", "{CD78B9DC-35B5-4FEE-AB2A-739680800CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSC-TournamentGen.Domain.Test", "NSC-TournamentGen.Core.Test\NSC-TournamentGen.Domain.Test\NSC-TournamentGen.Domain.Test.csproj", "{CD78B9DC-35B5-4FEE-AB2A-739680800CBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.DataAccess", "NSC-TournamentGen.DataAccess\NSC-TournamentGen.DataAccess.csproj", "{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSC-TournamentGen.DataAccess", "NSC-TournamentGen.DataAccess\NSC-TournamentGen.DataAccess.csproj", "{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSC-TournamentGen.Security", "NSC-TournamentGen.Security\NSC-TournamentGen.Security.csproj", "{34A4ACBD-BA62-4D6C-98F3-C716E6361EBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +55,13 @@ Global
 		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34A4ACBD-BA62-4D6C-98F3-C716E6361EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34A4ACBD-BA62-4D6C-98F3-C716E6361EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34A4ACBD-BA62-4D6C-98F3-C716E6361EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34A4ACBD-BA62-4D6C-98F3-C716E6361EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{867D12A6-BF9E-4A22-965B-030BFFD5E88C} = {C31BE2E9-9560-4271-A4B8-B67479916E25}
@@ -57,5 +69,9 @@ Global
 		{6C72F048-7E66-4961-B514-3ACF79E99F9C} = {DCF69CE9-DC1D-4954-B288-36F1FBB2D25A}
 		{CD78B9DC-35B5-4FEE-AB2A-739680800CBF} = {DCF69CE9-DC1D-4954-B288-36F1FBB2D25A}
 		{71A5F9B6-0DB1-4B39-A8D7-A48AD65128EA} = {90417528-AC08-45CC-8869-CA769ED76535}
+		{34A4ACBD-BA62-4D6C-98F3-C716E6361EBF} = {90417528-AC08-45CC-8869-CA769ED76535}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C951C04-696D-4F83-92E7-C48A4B421143}
 	EndGlobalSection
 EndGlobal

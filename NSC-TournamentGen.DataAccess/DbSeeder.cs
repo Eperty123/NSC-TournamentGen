@@ -1,18 +1,15 @@
 ﻿using NSC_TournamentGen.Core.Models;
 using NSC_TournamentGen.DataAccess.Entities;
-using NSC_TournamentGen.Security.Models;
 
 namespace NSC_TournamentGen.DataAccess
 {
-    public class DbSeeder
+    public class DbSeeder : IDbSeeder
     {
         private readonly MainDbContext _ctx;
-        private readonly AuthDbContext _authCtx;
 
-        public DbSeeder(MainDbContext ctx, AuthDbContext authCtx)
+        public DbSeeder(MainDbContext ctx)
         {
             _ctx = ctx;
-            _authCtx = authCtx;
         }
 
         public void SeedDevelopment()
@@ -30,26 +27,11 @@ namespace NSC_TournamentGen.DataAccess
 
             _ctx.SaveChanges();
             #endregion
-
-            #region Auth Db Context
-            _authCtx.Database.EnsureDeleted();
-            _authCtx.Database.EnsureCreated();
-
-            _authCtx.LoginUsers.AddRange(
-                new LoginUserEntity { Username = "Carlo", Password = "test" },
-                new LoginUserEntity { Username = "Niko", Password = "test" },
-                new LoginUserEntity { Username = "Svend", Password = "test" }
-            );
-
-            _authCtx.SaveChanges();
-
-            #endregion
         }
 
         public void SeedProduction()
         {
             _ctx.Database.EnsureCreated();
-            _authCtx.Database.EnsureCreated();
         }
     }
 }

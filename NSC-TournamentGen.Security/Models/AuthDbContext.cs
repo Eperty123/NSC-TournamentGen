@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NSC_TournamentGen.Security.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -19,8 +19,7 @@ namespace NSC_TournamentGen.Controllers
         [HttpPost(nameof(Login))]
         public ActionResult<TokenDto> Login(LoginDto loginDto)
         {
-            var token = _securityService.GenerateJwtToken(loginDto.Username,
-                loginDto.Password);
+            var token = _securityService.GenerateJwtToken(loginDto.Username, loginDto.Password);
 
             return new TokenDto
             {

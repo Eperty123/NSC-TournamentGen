@@ -20,8 +20,11 @@ using NSC_TournamentGen.DataAccess;
 using NSC_TournamentGen.DataAccess.Repositories;
 using NSC_TournamentGen.Domain.IRepositories;
 using NSC_TournamentGen.Domain.Services;
+using NSC_TournamentGen.Security;
+using NSC_TournamentGen.Security.IRepositories;
 using NSC_TournamentGen.Security.IServices;
 using NSC_TournamentGen.Security.Models;
+using NSC_TournamentGen.Security.Repositories;
 using NSC_TournamentGen.Security.Services;
 
 namespace NSC_TournamentGen
@@ -41,7 +44,7 @@ namespace NSC_TournamentGen
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                var identifier = Configuration["JwtConfig:ApiIdentifier"];
+                var identifier = Configuration["JwtConfig:SecretIdentifier"];
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NSC_TournamentGen", Version = "v1" });
 
 
@@ -54,6 +57,24 @@ namespace NSC_TournamentGen
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
                     Description = $"Enter the jwt token after the {identifier}.\n\nExample: {identifier} 123456.",
+                });
+
+                // Make the api remember the logged in user.
+                // Without this piece of code, the logged in user won't be
+                // able to use any parts of the api that require authorization.
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = identifier
+                            },
+                        },
+                        new string[] {}
+                    }
                 });
             });
 
@@ -91,6 +112,9 @@ namespace NSC_TournamentGen
             services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddScoped<ISecurityService, SecurityService>();
+            services.AddScoped<ISecurityRepository, SecurityRepository>();
+            services.AddScoped<IDbSeeder, DbSeeder>();
+            services.AddScoped<IAuthDbSeeder, AuthDbSeeder>();
 
             services.AddDbContext<MainDbContext>(opt =>
             {
@@ -104,7 +128,7 @@ namespace NSC_TournamentGen
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MainDbContext mainCtx, AuthDbContext authCtx)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbSeeder dbSeeder, IAuthDbSeeder authDbSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -112,13 +136,14 @@ namespace NSC_TournamentGen
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSC_TournamentGen v1"));
                 app.UseCors("dev-policy");
-                new DbSeeder(mainCtx, authCtx).SeedDevelopment();
+                dbSeeder.SeedDevelopment();
+                authDbSeeder.SeedDevelopment();
             }
             else
             {
-                new DbSeeder(mainCtx, authCtx).SeedProduction();
+                dbSeeder.SeedProduction();
+                authDbSeeder.SeedProduction();
             }
-
 
             app.UseHttpsRedirection();
 

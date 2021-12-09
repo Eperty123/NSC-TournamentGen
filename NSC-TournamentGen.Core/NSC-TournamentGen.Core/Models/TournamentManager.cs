@@ -149,8 +149,6 @@ namespace NSC_TournamentGen.Core.Models
 
         public void MakeFirstRoundWithNoPreRounds(List<string> participants)
         {
-            if (_bracketsDictionary == null)
-                _bracketsDictionary = new Dictionary<int, List<Bracket>>();
             var rnglist = MakeRandomList(participants);
             var aor = _amountOfRounds;
             var t = _tournamentNumber;

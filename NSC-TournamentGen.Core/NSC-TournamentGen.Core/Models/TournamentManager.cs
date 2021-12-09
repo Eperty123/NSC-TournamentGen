@@ -11,106 +11,130 @@ namespace NSC_TournamentGen.Core.Models
         public int _amountOfBracket;
         public int _amountOfRounds;
         public Dictionary<int, List<Bracket>> _bracketsDictionary;
-        
-        
-        
+
+
+        public void TestPrintD()
+        {
+            foreach (KeyValuePair<int,List<Bracket>> list in _bracketsDictionary)
+            {
+                Console.WriteLine("Key: {0}, Value: {1}",
+                    list.Key, list.Value);
+            }
+        }
 
 
         public void MakeBracketsForTournament(TournamentInput tournamentInput, List<string> participants)
         {
-            CalculateTournamentNumber(tournamentInput.AmountOfParticipants); // need info about Amount of Participant -> tournament input
-            CalculateAmountOfRounds(tournamentInput.AmountOfParticipants);  // need info about Amount of Participant -> tournament input + TournamentNumber
-            CalculateAmountOfBracket(tournamentInput.AmountOfParticipants); // need info about Amount of Participant -> tournament input + TournamentNumber
-            GenerateBrackets(tournamentInput.AmountOfParticipants, participants); // // need info about Amount of Participant -> tournament input + TournamentNumber + amountOfBracket + amountOfRounds;
+            CalculateTournamentNumber(tournamentInput
+                .AmountOfParticipants); // need info about Amount of Participant -> tournament input
+            CalculateAmountOfRounds(tournamentInput
+                .AmountOfParticipants); // need info about Amount of Participant -> tournament input + TournamentNumber
+            CalculateAmountOfBracket(tournamentInput
+                .AmountOfParticipants); // need info about Amount of Participant -> tournament input + TournamentNumber
+            MakeFirstRoundWithNoPreRounds(
+                participants); // // need info about Amount of Participant -> tournament input + TournamentNumber + amountOfBracket + amountOfRounds;
         }
-        
+
         public void GenerateBrackets(int amountOfParticipants, List<string> participants)
         {
             var rnglist = MakeRandomList(participants);
             var aor = _amountOfRounds;
             var t = _tournamentNumber;
             var counter = 0;
+            var firstRound = aor;
             _bracketsDictionary = new Dictionary<int, List<Bracket>>();
-            
-            /*
-            // tilføjer preBacket til Dictionary.
-            if (!NoPreRounds(amountOfParticipants))
-            {
-                var bracketslist = new List<Bracket>();
-                for (int i = 0; i < amountOfParticipants - t; i++)
-                {
-                    var bracket = new Bracket
-                    {
-                        Id = i + 1,
-                        Participants = new List<string>()
-                    };
-                    bracket.Participants.Add(rnglist[i+counter]);
-                    counter++;
-                    bracket.Participants.Add(rnglist[i+counter]);
-                    bracketslist.Add(bracket);
-                }
-                _bracketsDictionary.Add(0, bracketslist);
-            }
-            // tilføjer alle MainBracket til Dictionary
-            */
-            
+
             while (aor > 0)
             {
-                var bracketslist = new List<Bracket>();
+                var bracketsList = new List<Bracket>();
+                var preBracketsList = new List<Bracket>();
                 if (NoPreRounds(amountOfParticipants))
                 {
-                    for (int i = 0; i < aor; i++)
+                    for (int i = 0; i < t / 2; i++)
                     {
-                    
                         var bracket = new Bracket
                         {
                             Id = i + 1,
                             Participants = new List<string>()
                         };
-                        bracket.Participants.Add(rnglist[i+counter]);
-                        counter++;
-                        bracket.Participants.Add(rnglist[i+counter]);
-                        bracketslist.Add(bracket);
+                        if (aor == firstRound)
+                        {
+                            bracket.Participants.Add(rnglist[i + counter]);
+                            counter++;
+                            bracket.Participants.Add(rnglist[i + counter]);
+                        }
+
+                        bracketsList.Add(bracket);
+                        _bracketsDictionary.Add(t, bracketsList);
                     }
-                    _bracketsDictionary.Add(t, bracketslist);
+
                     t = t / 2;
                     aor--;
                 }
-                
+
                 // hvis der er preBracket så  tilføjer den andeldes.
                 else
                 {
-                    for (int i = 0; i < counter; i++)
+                    // prebracket rounds lavet.
+                    for (int i = 0; i < amountOfParticipants - _tournamentNumber; i++)
                     {
-                    
                         var bracket = new Bracket
                         {
                             Id = i + 1,
                             Participants = new List<string>()
                         };
-                        bracket.Participants.Add(rnglist[i+counter]);
-                        bracketslist.Add(bracket);
+                        bracket.Participants.Add(rnglist[i + counter]);
+                        counter++;
+                        bracket.Participants.Add(rnglist[i + counter]);
+                        preBracketsList.Add(bracket);
                     }
 
-                    var xcounter = counter;
-                    for (int i = 0; i < _tournamentNumber/2 -counter; i++)
+                    _bracketsDictionary.Add(0, preBracketsList);
+
+                    var amountLeft = amountOfParticipants - counter * 2;
+                    var xcounter = counter * 2;
+
+                    for (int i = 0; i < t / 2; i++)
                     {
-                    
-                        var bracket = new Bracket
+                        while (amountLeft != 0)
                         {
-                            Id = i + 1,
-                            Participants = new List<string>()
-                        };
-                        bracket.Participants.Add(rnglist[i+xcounter]);
-                        xcounter++;
-                        bracket.Participants.Add(rnglist[i+xcounter]);
-                        bracketslist.Add(bracket);
+                            var bracket = new Bracket
+                            {
+                                Id = i + 1,
+                                Participants = new List<string>()
+                            };
+                            if (aor == firstRound)
+                            {
+                                if (amountLeft == 0)
+                                {
+                                    bracketsList.Add(bracket);
+                                }
+
+                                if (amountLeft % 2 == 0 && amountLeft > 0)
+                                {
+                                    bracket.Participants.Add(rnglist[i + xcounter]);
+                                    xcounter++;
+                                    bracket.Participants.Add(rnglist[i + xcounter]);
+                                    amountLeft = amountLeft - 2;
+                                    bracketsList.Add(bracket);
+                                }
+
+                                if (amountLeft % 2 == 1 && amountLeft > 0)
+                                {
+                                    bracket.Participants.Add(rnglist[i + xcounter]);
+                                    amountLeft--;
+                                    bracketsList.Add(bracket);
+                                }
+                            }
+                            
+                        }
+                        
+                        _bracketsDictionary.Add(t, bracketsList);
                     }
-                    _bracketsDictionary.Add(t, bracketslist);
+
                     t = t / 2;
                     aor--;
                 }
-
             }
 
             if (_bracketsDictionary.Count != _amountOfRounds)
@@ -119,19 +143,61 @@ namespace NSC_TournamentGen.Core.Models
                     "Antallet af bracket i dictionaory stemmer ikke over ens med calculateAmountOfBracket ");
             }
         }
-        
-        
-        public List<string> MakeRandomList(List<string> participants)
+
+
+
+
+        public void MakeFirstRoundWithNoPreRounds(List<string> participants)
+        {
+            var rnglist = MakeRandomList(participants);
+            var aor = _amountOfRounds;
+            var t = _tournamentNumber;
+            var firstRound = aor;
+            var counter = 0;
+            var bracketsList = new List<Bracket>();
+            
+                for (int i = 0; i < t / 2; i++)
+            {
+                var bracket = new Bracket
+                {
+                    Id = i + 1,
+                    Participants = new List<string>()
+                };
+                if (aor == firstRound)
+                {
+                    bracket.Participants.Add(rnglist[i + counter]);
+                    counter++;
+                    bracket.Participants.Add(rnglist[i + counter]);
+                }
+
+                bracketsList.Add(bracket);
+            }
+            _bracketsDictionary.Add(t, bracketsList);
+        }
+
+        public void MakePreRounds(int amountOfParticipants)
         {
             
-            var random = new Random();
-            var testList = participants.OrderBy(item => random.Next());
-            
-            
-            return testList.ToList();
+            var t = _tournamentNumber;
+            /*
+            for (int i = 0; i < UPPER; i++)
+            {
+                
+            }
+            */
         }
         
-        
+
+
+        public List<string> MakeRandomList(List<string> participants)
+        {
+            var random = new Random();
+            var testList = participants.OrderBy(item => random.Next());
+
+
+            return testList.ToList();
+        }
+
 
         public bool NoPreRounds(int amountOfParticipants)
         {
@@ -148,6 +214,7 @@ namespace NSC_TournamentGen.Core.Models
 
             throw new Exception("Noget gik galt med noPreRounds");
         }
+
 
         public int CalculateAmountOfBracket(int amountOfParticipants)
         {

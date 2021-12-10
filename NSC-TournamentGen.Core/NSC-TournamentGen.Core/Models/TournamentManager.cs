@@ -189,7 +189,7 @@ namespace NSC_TournamentGen.Core.Models
             if (_bracketsDictionary == null)
                 _bracketsDictionary = new Dictionary<int, List<Bracket>>();
             
-            for (int i = 0; i < t / 2; i++)
+            for (int i = 0; i < amountOfParticipants -t / 2; i++)
             {
                 var bracket = new Bracket
                 {
@@ -205,7 +205,7 @@ namespace NSC_TournamentGen.Core.Models
 
                 bracketsList.Add(bracket);
             }
-            _bracketsDictionary.Add(t, bracketsList);
+            _bracketsDictionary.Add(0, bracketsList);
         }
         
 

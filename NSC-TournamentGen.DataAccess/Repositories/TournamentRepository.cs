@@ -56,11 +56,6 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             return null;
         }
 
-        public Tournament UpdateTournament(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public Tournament UpdateTournament(int id, Tournament tournament)
         {
             var foundTournament = _ctx.Tournament.FirstOrDefault(x => x.Id == id);
@@ -83,6 +78,11 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             }
 
             return null;
+        }
+
+        public TournamentInput CreateTournament(TournamentInput tournamentInput)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

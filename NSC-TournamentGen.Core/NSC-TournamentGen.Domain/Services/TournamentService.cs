@@ -29,6 +29,11 @@ namespace NSC_TournamentGen.Domain.Services
             return _tournamentRepository.UpdateTournament(id, tournament);
         }
 
+        public TournamentInput CreateTournament(TournamentInput tournamentInput)
+        {
+            return _tournamentRepository.CreateTournament(tournamentInput);
+        }
+
         public Tournament GetTournament(int id)
         {
             return _tournamentRepository.ReadTournament(id);

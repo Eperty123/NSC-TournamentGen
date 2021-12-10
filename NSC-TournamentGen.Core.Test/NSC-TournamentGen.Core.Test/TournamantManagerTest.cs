@@ -6,12 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NSC_TournamentGen.Core.Test
 {
 
     public class TournamantManagerTest
     {
+        private readonly ITestOutputHelper _testOutputHelper;
+        public TournamantManagerTest(ITestOutputHelper testOutputHelper)
+        {
+            _testOutputHelper = testOutputHelper;
+        }
 
         [Fact]
         void TournamentManager_CanGenerateSingleEliminationWithFourParticipants()
@@ -25,7 +31,7 @@ namespace NSC_TournamentGen.Core.Test
             var manager = new TournamentManager();
             manager.MakeBracketsForTournament(tInput,participantList);
             Assert.Equal(expected:2,manager._tournamentNumber/2);
-            manager.TestPrintD();
+            _testOutputHelper.WriteLine("Test Output");
         }
         
         [Fact]

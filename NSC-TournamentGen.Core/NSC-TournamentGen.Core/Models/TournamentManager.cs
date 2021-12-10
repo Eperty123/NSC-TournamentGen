@@ -15,7 +15,7 @@ namespace NSC_TournamentGen.Core.Models
 
         public void TestPrintD()
         {
-            foreach (KeyValuePair<int,List<Bracket>> list in _bracketsDictionary)
+            foreach (KeyValuePair<int, List<Bracket>> list in _bracketsDictionary)
             {
                 Console.WriteLine("Key: {0}, Value: {1}",
                     list.Key, list.Value);
@@ -126,9 +126,8 @@ namespace NSC_TournamentGen.Core.Models
                                     bracketsList.Add(bracket);
                                 }
                             }
-                            
                         }
-                        
+
                         _bracketsDictionary.Add(t, bracketsList);
                     }
 
@@ -145,8 +144,6 @@ namespace NSC_TournamentGen.Core.Models
         }
 
 
-
-
         public void MakeFirstRoundWithNoPreRounds(List<string> participants)
         {
             var rnglist = MakeRandomList(participants);
@@ -157,7 +154,7 @@ namespace NSC_TournamentGen.Core.Models
             var bracketsList = new List<Bracket>();
             if (_bracketsDictionary == null)
                 _bracketsDictionary = new Dictionary<int, List<Bracket>>();
-            
+
             for (int i = 0; i < t / 2; i++)
             {
                 var bracket = new Bracket
@@ -165,21 +162,21 @@ namespace NSC_TournamentGen.Core.Models
                     Id = i + 1,
                     Participants = new List<string>()
                 };
-                if (aor == firstRound)
-                {
-                    bracket.Participants.Add(rnglist[i + counter]);
-                    counter++;
-                    bracket.Participants.Add(rnglist[i + counter]);
-                }
+
+
+                bracket.Participants.Add(rnglist[i + counter]);
+                counter++;
+                bracket.Participants.Add(rnglist[i + counter]);
+
 
                 bracketsList.Add(bracket);
             }
+
             _bracketsDictionary.Add(t, bracketsList);
         }
 
-        public void MakePreRounds(int amountOfParticipants,List<string> participants)
+        public void MakePreRounds(int amountOfParticipants, List<string> participants)
         {
-            
             var rnglist = MakeRandomList(participants);
             var aor = _amountOfRounds;
             var t = _tournamentNumber;
@@ -188,26 +185,23 @@ namespace NSC_TournamentGen.Core.Models
             var bracketsList = new List<Bracket>();
             if (_bracketsDictionary == null)
                 _bracketsDictionary = new Dictionary<int, List<Bracket>>();
-            
-            for (int i = 0; i < amountOfParticipants -t / 2; i++)
+
+            for (int i = 0; i < amountOfParticipants - t / 2; i++)
             {
                 var bracket = new Bracket
                 {
                     Id = i + 1,
                     Participants = new List<string>()
                 };
-                if (aor == firstRound)
-                {
-                    bracket.Participants.Add(rnglist[i + counter]);
-                    counter++;
-                    bracket.Participants.Add(rnglist[i + counter]);
-                }
 
+                bracket.Participants.Add(rnglist[i + counter]);
+                counter++;
+                bracket.Participants.Add(rnglist[i + counter]);
                 bracketsList.Add(bracket);
             }
+
             _bracketsDictionary.Add(0, bracketsList);
         }
-        
 
 
         public List<string> MakeRandomList(List<string> participants)

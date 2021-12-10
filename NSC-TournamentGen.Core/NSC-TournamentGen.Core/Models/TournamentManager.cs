@@ -155,8 +155,10 @@ namespace NSC_TournamentGen.Core.Models
             var firstRound = aor;
             var counter = 0;
             var bracketsList = new List<Bracket>();
+            if (_bracketsDictionary == null)
+                _bracketsDictionary = new Dictionary<int, List<Bracket>>();
             
-                for (int i = 0; i < t / 2; i++)
+            for (int i = 0; i < t / 2; i++)
             {
                 var bracket = new Bracket
                 {
@@ -175,16 +177,35 @@ namespace NSC_TournamentGen.Core.Models
             _bracketsDictionary.Add(t, bracketsList);
         }
 
-        public void MakePreRounds(int amountOfParticipants)
+        public void MakePreRounds(int amountOfParticipants,List<string> participants)
         {
             
+            var rnglist = MakeRandomList(participants);
+            var aor = _amountOfRounds;
             var t = _tournamentNumber;
-            /*
-            for (int i = 0; i < UPPER; i++)
+            var firstRound = aor;
+            var counter = 0;
+            var bracketsList = new List<Bracket>();
+            if (_bracketsDictionary == null)
+                _bracketsDictionary = new Dictionary<int, List<Bracket>>();
+            
+            for (int i = 0; i < t / 2; i++)
             {
-                
+                var bracket = new Bracket
+                {
+                    Id = i + 1,
+                    Participants = new List<string>()
+                };
+                if (aor == firstRound)
+                {
+                    bracket.Participants.Add(rnglist[i + counter]);
+                    counter++;
+                    bracket.Participants.Add(rnglist[i + counter]);
+                }
+
+                bracketsList.Add(bracket);
             }
-            */
+            _bracketsDictionary.Add(t, bracketsList);
         }
         
 

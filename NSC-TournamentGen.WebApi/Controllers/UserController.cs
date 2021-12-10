@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSC_TournamentGen.Core.IServices;
@@ -20,6 +21,7 @@ namespace NSC_TournamentGen.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet]
 
         public ActionResult<UsersDto> ReadAll()

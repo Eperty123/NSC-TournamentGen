@@ -13,13 +13,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\NSC-TournamentGen.Core\NSC-TournamentGen.Core\NSC-TournamentGen.Core.csproj" />
       <ProjectReference Include="..\NSC-TournamentGen.Core\NSC-TournamentGen.Domain\NSC-TournamentGen.Domain.csproj" />
       <ProjectReference Include="..\NSC-TournamentGen.DataAccess\NSC-TournamentGen.DataAccess.csproj" />
+      <ProjectReference Include="..\NSC-TournamentGen.Security\NSC-TournamentGen.Security.csproj" />
     </ItemGroup>
 
 </Project>

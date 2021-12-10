@@ -13,6 +13,16 @@ namespace NSC_TournamentGen.Core.Models
         public Dictionary<int, List<Bracket>> _bracketsDictionary;
 
 
+        public TournamentManager()
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            _bracketsDictionary = new Dictionary<int, List<Bracket>>();
+        }
+
         public void TestPrintD()
         {
             foreach (KeyValuePair<int, List<Bracket>> list in _bracketsDictionary)
@@ -152,8 +162,6 @@ namespace NSC_TournamentGen.Core.Models
             var firstRound = aor;
             var counter = 0;
             var bracketsList = new List<Bracket>();
-            if (_bracketsDictionary == null)
-                _bracketsDictionary = new Dictionary<int, List<Bracket>>();
 
             for (int i = 0; i < t / 2; i++)
             {
@@ -183,9 +191,7 @@ namespace NSC_TournamentGen.Core.Models
             var firstRound = aor;
             var counter = 0;
             var bracketsList = new List<Bracket>();
-            if (_bracketsDictionary == null)
-                _bracketsDictionary = new Dictionary<int, List<Bracket>>();
-
+            
             for (int i = 0; i < amountOfParticipants - t / 2; i++)
             {
                 var bracket = new Bracket

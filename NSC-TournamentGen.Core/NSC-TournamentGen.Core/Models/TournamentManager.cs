@@ -67,7 +67,7 @@ namespace NSC_TournamentGen.Core.Models
             var t = TournamentNumber;
             var bracketsList = new List<Bracket>();
             var amountLeft = amountOfParticipants - ((amountOfParticipants - t) * 2);
-            var counter = amountOfParticipants - ((amountOfParticipants - t) * 2);
+            var counter = (amountOfParticipants - t) * 2;
 
             for (int i = 0; i < t / 2; i++)
             {

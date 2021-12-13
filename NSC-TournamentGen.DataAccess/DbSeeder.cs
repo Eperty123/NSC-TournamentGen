@@ -17,6 +17,17 @@ namespace NSC_TournamentGen.DataAccess
             #region Main Db Context
             _ctx.Database.EnsureDeleted();
             _ctx.Database.EnsureCreated();
+            
+            new TournamentEntity(){Id = 99, Name = "test",}
+            new UserEntity(){Id = 99, Username = "admin",Password = "admin",}
+            RoundEntity testRoundEntity = new RoundEntity(){}
+            ParticipantEntity testParticipantEntity = new ParticipantEntity(){Id = 99,Bracket = test}
+                
+            BracketEntity testBracketEntity = new BracketEntity
+                {Id = 99, Participants = testParticipantEntity, Round = testRoundEntity};
+            
+           
+            
 
             _ctx.User.Add(new UserEntity { Id = 1, Username = "Svend", Password = "ost" });
             _ctx.User.Add(new UserEntity { Id = 2, Username = "Niko", Password = "ost" });
@@ -24,6 +35,7 @@ namespace NSC_TournamentGen.DataAccess
             _ctx.Tournament.Add(new TournamentEntity() { Id = 1, Name = "Svend", Participants = "lol", Type = TournamentType.SingleElimination });
             _ctx.Tournament.Add(new TournamentEntity() { Id = 2, Name = "Sick Tournament", Participants = "lol", Type = TournamentType.SingleElimination });
             _ctx.Tournament.Add(new TournamentEntity() { Id = 3, Name = "HentaiTournamentNSFW", Participants = "carlo", Type = TournamentType.SingleElimination });
+            
 
             _ctx.SaveChanges();
             #endregion

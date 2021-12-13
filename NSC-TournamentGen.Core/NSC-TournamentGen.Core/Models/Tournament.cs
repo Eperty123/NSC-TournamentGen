@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace NSC_TournamentGen.Core.Models
@@ -9,5 +10,6 @@ namespace NSC_TournamentGen.Core.Models
         public string Name  { get; set; }
         public TournamentType Type { get; set; }
         public string Participants { get; set; }
+        public List<Participant> Participants2 { get; set; }
     }
 }

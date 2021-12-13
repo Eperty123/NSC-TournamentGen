@@ -9,11 +9,12 @@ namespace NSC_TournamentGen.DataAccess.Entities
     {
         public int Id { get; set; }
         public string Name  { get; set; }
-        public TournamentType Type { get; set; }
-        public ParticipantEntity Participants { get; set; }
+
         public List<TournamentUserEntity> TournamentUsers { get; set; }
         
         public List<RoundEntity> Rounds { get; set; }
+        public int UserId { get; set; }
         public UserEntity User { get; set; }
+        
     }
 }

@@ -19,9 +19,14 @@ namespace NSC_TournamentGen.DataAccess
         {
             base.OnModelCreating(modelBuilder);
             
-            modelBuilder.Entity<ParticipantEntity>()
-                .HasOne(c => c.Bracket)
-                .WithMany(ct => ct.Participants)
+            modelBuilder.Entity<BracketEntity>()
+                .HasOne(c => c.Participant1)
+                .WithMany(ct => ct.BracketsParticipants1)
+                .OnDelete(DeleteBehavior.SetNull);
+            
+            modelBuilder.Entity<BracketEntity>()
+                .HasOne(c => c.Participant2)
+                .WithMany(ct => ct.BracketsParticipants2)
                 .OnDelete(DeleteBehavior.SetNull);
             
             modelBuilder.Entity<BracketEntity>()

@@ -60,7 +60,6 @@ namespace NSC_TournamentGen.Controllers
                     .Select(tournament => new TournamentDto
                     {
                         Id = tournament.Id,
-                        Participants = tournament.Participants,
                         Name = tournament.Name,
                         Type = tournament.Type,
                     }).ToList();

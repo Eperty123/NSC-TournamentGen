@@ -1,4 +1,7 @@
-﻿using NSC_TournamentGen.Core.Models;
+﻿using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NSC_TournamentGen.Core.Models;
 
 namespace NSC_TournamentGen.DataAccess.Entities
 {
@@ -6,7 +9,12 @@ namespace NSC_TournamentGen.DataAccess.Entities
     {
         public int Id { get; set; }
         public string Name  { get; set; }
-        public TournamentType Type { get; set; }
-        public string Participants { get; set; }
+
+        public List<TournamentUserEntity> TournamentUsers { get; set; }
+        
+        public List<RoundEntity> Rounds { get; set; }
+        public int UserId { get; set; }
+        public UserEntity User { get; set; }
+        
     }
 }

@@ -58,8 +58,9 @@ namespace NSC_TournamentGen.Controllers
             {
                 Id = foundTournament.Id,
                 Name = foundTournament.Name,
-                Participants = foundTournament.Participants,
-                Type = foundTournament.Type
+                Rounds = foundTournament.
+                
+                
             });
             else return StatusCode(500, "User not found.");
         }

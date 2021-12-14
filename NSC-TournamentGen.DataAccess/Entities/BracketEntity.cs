@@ -12,5 +12,6 @@ namespace NSC_TournamentGen.DataAccess.Entities
         public ParticipantEntity  Participant2 { get; set; }
         public int RoundId { get; set; }
         public RoundEntity Round { get; set; }
+        public int WinnerId { get; set; }
     }
 }

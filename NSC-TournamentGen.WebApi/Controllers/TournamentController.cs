@@ -22,29 +22,29 @@ namespace NSC_TournamentGen.Controllers
             _tournamentService = tournamentService;
         }
 
-        [HttpGet]
-        public ActionResult<TournamentsDto> ReadAll()
-        {
-            try
-            {
-                var tournaments = _tournamentService.GetAllTournaments()
-                    .Select(tournament => new TournamentDto
-                    {
-                        Id = tournament.Id,
-                        Name = tournament.Name,
-                        Type = tournament.Type,
-                    }).ToList();
+        //[HttpGet]
+        //public ActionResult<TournamentsDto> ReadAll()
+        //{
+        //    try
+        //    {
+        //        var tournaments = _tournamentService.GetAllTournaments()
+        //            .Select(tournament => new TournamentDto
+        //            {
+        //                Id = tournament.Id,
+        //                Name = tournament.Name,
+        //                Type = tournament.Type,
+        //            }).ToList();
 
-                return Ok(new TournamentsDto
-                {
-                    TournamentList = tournaments,
-                });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "sikke noget lort");
-            }
-        }
+        //        return Ok(new TournamentsDto
+        //        {
+        //            TournamentList = tournaments,
+        //        });
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return StatusCode(500, "sikke noget lort");
+        //    }
+        //}
 
         // GET api/Tournament/5 -- READ By Id
         [HttpGet("{id}")]
@@ -53,74 +53,64 @@ namespace NSC_TournamentGen.Controllers
             if (id < 1) return BadRequest("Id must be greater then 0!");
 
             // Id ok, proceed!
-            var foundTournament = _tournamentService.GetTournament(id);
-            if (foundTournament != null) return Ok(new TournamentDto()
+            return Ok(new TournamentDto
             {
-                Id = foundTournament.Id,
-                Name = foundTournament.Name,
-                Rounds = foundTournament.
-                
-                
+                Id = 1,
+                Name = "Faker",
+                Rounds = new List<RoundDto>()
+                  {
+                      new RoundDto
+                      {
+                           Id = 1,
+                            Name = "8",
+                             Brackets = new List<BracketDto>()
+                             {
+                                 new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
+                                           Id = 1,
+                                            Name = "Haruka",
+
+                                       }
+                                 }
+                             },
+                              Tournament = new TournamentDto
+                              {
+                                   Id = 1,
+                                 Name = "Hentai Tournament",
+                                  Rounds= new List<RoundDto>
+                                  {
+                                      new RoundDto
+                                      {
+                                           Id = 1,
+                                            Name = "4",
+
+                                      }
+                                  }
+                              }
+                      }
+                  },
+                User = new UserDto
+                {
+                    Id = 1,
+                    Username = "Erika",
+                    Password = "213",
+                },
+
             });
-            else return StatusCode(500, "User not found.");
+            //var foundTournament = _tournamentService.GetTournament(id);
+            //if (foundTournament != null) return Ok(new TournamentDto()
+            //{
+            //    Id = foundTournament.Id,
+            //    Name = foundTournament.Name,
+            //    Rounds = 
+
+
+            //});
+            //else return StatusCode(500, "User not found.");
         }
-        // DELETE api/Tournament/5
-        [HttpDelete("{id}")]
-        public ActionResult<TournamentDto> Delete(int id)
-        {
-            try
-            {
-                if (id < 1) return BadRequest("Id must be greater then 0!");
 
-                // Id ok, proceed!
-                var foundTournament = _tournamentService.DeleteTournament(id);
-                if (foundTournament != null) return Ok(new TournamentDto()
-                {
-                    Id = foundTournament.Id,
-                    Name = foundTournament.Name,
-                    Participants = foundTournament.Participants,
-                    Type = foundTournament.Type
-                });
-                else return BadRequest("Tournament not found");
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Failed to delete Tournament");
-            }
-        }
-        // PUT api/Tournament/5 -- Update
-        [HttpPut("{id}")]
-        public ActionResult<TournamentDto> Put(int id, [FromBody] TournamentDto tournament)
-        {
-            try
-            {
-                if (id < 1) return BadRequest("Id must be greater then 0!");
-
-                // Id ok, proceed!
-
-                var foundTournament = _tournamentService.GetTournament(id);
-                if (foundTournament != null)
-                {
-                    // Update the values of the found tournament with the replacement.
-                    foundTournament.Name = tournament.Name;
-                    foundTournament.Participants = tournament.Participants;
-                    foundTournament.Type = tournament.Type;
-
-                    // Update the replacement's id with the found one.
-                    tournament.Id = foundTournament.Id;
-
-                    // Now update the tournament.
-                    var updatedTournament = _tournamentService.UpdateTournament(id, foundTournament);
-                    if (updatedTournament != null) return Ok(tournament);
-                }
-                else return BadRequest("Tournament not found.");
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Failed to update tournament.");
-            }
-
-            return BadRequest("Failed to update tournament.");
-        }
     }
 }

@@ -56,13 +56,52 @@ namespace NSC_TournamentGen.Controllers
             return Ok(new TournamentDto
             {
                 Id = 1,
-                Name = "Faker",
+                Name = "Hentai Tournament",
                 Rounds = new List<RoundDto>()
                   {
                       new RoundDto
                       {
                            Id = 1,
-                            Name = "8",
+                            Name = "Pre-round 0",
+                             Brackets = new List<BracketDto>()
+                             {
+                                 new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
+                                           Id = 1,
+                                            Name = "Red",
+
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Ruti"
+                                       }
+                                 },
+                                      new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
+                                           Id = 1,
+                                            Name = "Lough",
+
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Tarte"
+                                       }
+                                 }
+                             },
+                      }
+                      ,
+                      new RoundDto
+                      {
+                           Id = 1,
+                            Name = "Round 1",
                              Brackets = new List<BracketDto>()
                              {
                                  new BracketDto
@@ -72,24 +111,118 @@ namespace NSC_TournamentGen.Controllers
                                        {
                                            Id = 1,
                                             Name = "Haruka",
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Sora",
+                                       }
+                                 },
+                                      new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
+                                           Id = 1,
+                                            Name = "Lough",
 
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Tarte"
+                                       }
+                                 },
+                                      new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
+                                           Id = 1,
+                                            Name = "Placeholder 1",
+
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Placeholder 2"
+                                       }
+                                 },
+                                      new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
+                                           Id = 1,
+                                            Name = "Placeholder 3",
+
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Placeholder 4"
                                        }
                                  }
                              },
-                              Tournament = new TournamentDto
-                              {
-                                   Id = 1,
-                                 Name = "Hentai Tournament",
-                                  Rounds= new List<RoundDto>
-                                  {
-                                      new RoundDto
-                                      {
+                      },
+                      new RoundDto
+                      {
+                           Id = 1,
+                            Name = "Round 2 (Semi final)",
+                             Brackets = new List<BracketDto>()
+                             {
+                                 new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
                                            Id = 1,
-                                            Name = "4",
+                                            Name = "Haruka",
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Sora",
+                                       }
+                                 },
+                                      new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
+                                           Id = 1,
+                                            Name = "Lough",
 
-                                      }
-                                  }
-                              }
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Tarte"
+                                       }
+                                 },
+                             },
+                      },
+                      new RoundDto
+                      {
+                           Id = 1,
+                            Name = "Round 3 (Final)",
+                             Brackets = new List<BracketDto>()
+                             {
+                                 new BracketDto
+                                 {
+                                      Id = 1,
+                                       Participant1 = new ParticipantDto
+                                       {
+                                           Id = 1,
+                                            Name = "Haruka",
+                                       },
+                                       Participant2 = new ParticipantDto
+                                       {
+                                           Id = 2,
+                                           Name = "Sora",
+                                       }
+                                 },
+                             },
                       }
                   },
                 User = new UserDto
@@ -98,7 +231,6 @@ namespace NSC_TournamentGen.Controllers
                     Username = "Erika",
                     Password = "213",
                 },
-
             });
             //var foundTournament = _tournamentService.GetTournament(id);
             //if (foundTournament != null) return Ok(new TournamentDto()

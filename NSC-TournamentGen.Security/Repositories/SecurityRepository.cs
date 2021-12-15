@@ -27,6 +27,7 @@ namespace NSC_TournamentGen.Security.Repositories
                     Id = foundUser.Id,
                     UserName = foundUser.Username,
                     HashedPassword = foundUser.HashedPassword,
+                    Role = foundUser.Role,
                     Salt = Encoding.ASCII.GetBytes(foundUser.Salt),
                 };
             }

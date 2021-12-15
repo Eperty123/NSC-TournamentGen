@@ -98,6 +98,20 @@ namespace NSC_TournamentGen
                 };
             });
 
+            // Make role-based authentication work.
+            // Policy name can be anything you want bro. <3
+            // Roles are defined in the Role class.
+            services.AddAuthorization(options =>
+             {
+                 // Admin role.
+                 options.AddPolicy("RequireAdministratorRole",
+                      policy => policy.RequireRole(Role.Administrator));
+
+                 // User role.
+                 options.AddPolicy("RequireUserRole",
+                      policy => policy.RequireRole(Role.User));
+             });
+
             services.AddCors(
                 opt => opt
                     .AddPolicy("dev-policy", policy =>

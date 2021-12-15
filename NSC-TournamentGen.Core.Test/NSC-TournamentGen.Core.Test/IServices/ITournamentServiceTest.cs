@@ -49,7 +49,7 @@ namespace NSC_TournamentGen.Core.Test.IServices
         public void ITournamentService_UpdateTournament_NotNull()
         {
             var serviceMock = new Mock<ITournamentService>();
-            var replacement = new Tournament() { Name  = "test", Participants = "alot", Type = TournamentType.SingleElimination};
+            var replacement = new Tournament() { Name  = "test"};
             serviceMock.Setup(service => service.UpdateTournament(1, replacement)).Returns(new Tournament());
             var updatedTournament = serviceMock.Object.UpdateTournament(1, replacement);
             Assert.NotNull(updatedTournament);

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using NSC_TournamentGen.Core.Models;
+using NSC_TournamentGen.DataAccess.Entities;
 using NSC_TournamentGen.Domain.IRepositories;
 
 namespace NSC_TournamentGen.DataAccess.Repositories
@@ -18,7 +20,8 @@ namespace NSC_TournamentGen.DataAccess.Repositories
 
         public Tournament ReadTournament(int id)
         {
-            var tournamentEntity =  _ctx.Tournament
+            var tournamentEntity = _ctx.Tournament
+                .Include(t => t.User)
                 .Include(t => t.Rounds)
                 .ThenInclude(r => r.Brackets)
                 .ThenInclude(b => b.Participant1)
@@ -39,28 +42,56 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 {
                     if (!participants.Exists(p => p.Id == bracket.Participant1Id))
                     {
-                        participants.Add(new Participant {Id = bracket.Participant1Id, Name = bracket.Participant1.Name});
+                        participants.Add(
+                            new Participant {Id = bracket.Participant1Id, Name = bracket.Participant1.Name});
                     }
+
                     if (!participants.Exists(p => p.Id == bracket.Participant2Id))
                     {
-                        participants.Add(new Participant {Id = bracket.Participant2Id, Name = bracket.Participant2.Name});
+                        participants.Add(
+                            new Participant {Id = bracket.Participant2Id, Name = bracket.Participant2.Name});
                     }
                 }
             }
-            
+
             var tournament = new Tournament
             {
                 Id = tournamentEntity.Id,
                 Name = tournamentEntity.Name,
-                Participants2 = participants
+                Rounds = tournamentEntity.Rounds.Select(round => new Round
+                {
+                    Name = round.Name,
+                    Id = round.Id,
+                    Brackets = round.Brackets.Select(bracket => new Bracket
+                    {
+                        Id = bracket.Id,
+                        Participant1 = new Participant
+                        {
+                            Id = bracket.Participant1Id,
+                            Name = bracket.Participant1.Name
+                        },
+                        Participant2 = new Participant
+                        {
+                            Id = bracket.Participant2Id,
+                            Name = bracket.Participant2.Name
+                        }
+
+                    }).ToList()
+                }).ToList(),
+                User = new User
+                {
+                    Id = tournamentEntity.UserId,
+                    Username = tournamentEntity.User.Username
+                }
             };
 
-             return tournament;
+            return tournament;
         }
 
         public List<Tournament> ReadAllTournaments()
         {
-            var tournamentEntityList =  _ctx.Tournament
+            var tournamentEntityList = _ctx.Tournament
+                .Include(t => t.User)
                 .Include(t => t.Rounds)
                 .ThenInclude(r => r.Brackets)
                 .ThenInclude(b => b.Participant1)
@@ -79,24 +110,51 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                     {
                         if (!participants.Exists(p => p.Id == bracket.Participant1Id))
                         {
-                            participants.Add(new Participant {Id = bracket.Participant1Id, Name = bracket.Participant1.Name});
+                            participants.Add(new Participant
+                                {Id = bracket.Participant1Id, Name = bracket.Participant1.Name});
                         }
+
                         if (!participants.Exists(p => p.Id == bracket.Participant2Id))
                         {
-                            participants.Add(new Participant {Id = bracket.Participant2Id, Name = bracket.Participant2.Name});
+                            participants.Add(new Participant
+                                {Id = bracket.Participant2Id, Name = bracket.Participant2.Name});
                         }
                     }
                 }
-            
+
                 var tournament = new Tournament
                 {
                     Id = tournamentEntity.Id,
                     Name = tournamentEntity.Name,
-                    Participants2 = participants
+                    Rounds = tournamentEntity.Rounds.Select(round => new Round
+                    {
+                        Name = round.Name,
+                        Id = round.Id,
+                        Brackets = round.Brackets.Select(bracket => new Bracket
+                        {
+                            Id = bracket.Id,
+                            Participant1 = new Participant
+                            {
+                                Id = bracket.Participant1Id,
+                                Name = bracket.Participant1.Name
+                            },
+                            Participant2 = new Participant
+                            {
+                                Id = bracket.Participant2Id,
+                                Name = bracket.Participant2.Name
+                            }
+
+                        }).ToList()
+                    }).ToList(),
+                    User = new User
+                    {
+                        Id = tournamentEntity.UserId,
+                        Username = tournamentEntity.User.Username
+                    }
                 };
                 tournamentList.Add(tournament);
             }
-            
+
             return tournamentList;
         }
 
@@ -113,16 +171,11 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 _ctx.SaveChanges();
 
                 // Return a *new* Tournament instance from the found tournament.
-                return new Tournament { Id = foundTournament.Id, Name = foundTournament.Name};
+                return new Tournament {Id = foundTournament.Id, Name = foundTournament.Name};
             }
 
             // None found, return null.
             return null;
-        }
-
-        public Tournament UpdateTournament(int id)
-        {
-            throw new System.NotImplementedException();
         }
 
         public Tournament UpdateTournament(int id, Tournament tournament)
@@ -133,8 +186,8 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             {
                 // Make changes to the found tournament.
                 foundTournament.Name = tournament.Name;
-               // foundTournament.Participants = tournament.Participants;
-              // foundTournament.Type = tournament.Type;
+                // foundTournament.Participants = tournament.Participants;
+                // foundTournament.Type = tournament.Type;
 
                 // Update the found tournament in the database.
                 _ctx.Tournament.Update(foundTournament);
@@ -143,10 +196,44 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 _ctx.SaveChanges();
 
                 // Return a *new* Tournament instance from the updated tournament.
-                return new Tournament { Id = foundTournament.Id, Name = foundTournament.Name};
+                return new Tournament {Id = foundTournament.Id, Name = foundTournament.Name};
             }
 
             return null;
+        }
+
+        public Tournament CreateTournament(Tournament tournament)
+        {
+            var tournamentEntity = _ctx.Tournament;
+            
+            _ctx.Add(new TournamentEntity
+            {
+                Id = tournament.Id,
+                Name = tournament.Name,
+                Rounds = tournament.Rounds.Select(round => new RoundEntity
+                {
+                    Name = round.Name,
+                    Id = round.Id,
+                    Brackets = round.Brackets.Select(bracket => new BracketEntity
+                    {
+                        Id = bracket.Id,
+                        Participant1 = new ParticipantEntity
+                        {
+                            Id = bracket.Participant1Id,
+                            Name = bracket.Participant1.Name
+                        },
+                        Participant2 = new ParticipantEntity
+                        {
+                            Id = bracket.Participant2Id,
+                            Name = bracket.Participant2.Name
+                        }
+
+                    }).ToList()
+                }).ToList()
+            });
+            _ctx.SaveChanges();
+            //Not sure what to return, lars hjælp
+            return tournament;
         }
     }
 }

@@ -24,8 +24,8 @@ namespace NSC_TournamentGen.Core.Test
             tInput.AmountOfParticipants = participantList.Count;
             var manager = new TournamentManager();
             manager.MakeTournament(tInput,participantList);
-            Assert.Equal(expected:2,manager.TournamentNumber/2);
-            manager.TestPrintD();
+            Assert.Equal(expected:2,manager.AmountOfBracket);
+            
         }
         
         [Fact]
@@ -38,9 +38,8 @@ namespace NSC_TournamentGen.Core.Test
             var participantList = tInput.Participants.Split('\n').ToList();
             tInput.AmountOfParticipants = participantList.Count;
             var manager = new TournamentManager();
-            manager.MakeTournament(tInput, participantList);
-            Debug.WriteLine($"Brackets: {manager.BracketsDictionary.Count}");
-            Assert.Equal(expected:9,manager.AmountOfBracket);
+            manager.MakeTournament(tInput,participantList);
+            Assert.Equal(expected:5,manager.AmountOfBracket);
             
         }
     }

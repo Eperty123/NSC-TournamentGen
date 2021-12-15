@@ -9,5 +9,6 @@ namespace NSC_TournamentGen.Core.IServices
         List<Tournament> GetAllTournaments();
         Tournament DeleteTournament(int id);
         Tournament UpdateTournament(int id, Tournament tournament);
+        Tournament CreateTournament(TournamentInput tournamentInput);
     }
 }

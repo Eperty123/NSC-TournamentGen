@@ -37,11 +37,12 @@ namespace NSC_TournamentGen.Controllers
                     Name = tournamentInputDto.Name
                 };
                 var createdTournament = _tournamentService.CreateTournament(_tournamentInput);
-                if (createdTournament != null) return Ok (new TournamentInputDto
+                /*if (createdTournament != null) return Ok (new TournamentInputDto
                 {
                     Participants = createdTournament.Participants,
                     AmountOfParticipants = createdTournament.AmountOfParticipants
-                });
+                });*/
+                return Ok();
             }
             catch (Exception)
             {

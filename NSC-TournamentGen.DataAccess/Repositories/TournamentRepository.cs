@@ -193,9 +193,13 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             return null;
         }
 
-        public TournamentInput CreateTournament(TournamentInput tournamentInput)
+        public Tournament CreateTournament(Tournament tournament)
         {
-            throw new System.NotImplementedException();
+            _ctx.Add(new TournamentEntity
+            {
+                Id = 
+            });
+            _ctx.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NSC_TournamentGen.Core.IServices;
 using NSC_TournamentGen.Core.Models;
 using NSC_TournamentGen.Domain.IRepositories;
@@ -8,10 +9,12 @@ namespace NSC_TournamentGen.Domain.Services
     public class TournamentService : ITournamentService
     {
         private readonly ITournamentRepository _tournamentRepository;
+        private readonly TournamentManager _tournamentManager;
 
         public TournamentService(ITournamentRepository tournamentRepository)
         {
             _tournamentRepository = tournamentRepository;
+            _tournamentManager = new TournamentManager();
         }
         
         public List<Tournament> GetAllTournaments()
@@ -29,9 +32,10 @@ namespace NSC_TournamentGen.Domain.Services
             return _tournamentRepository.UpdateTournament(id, tournament);
         }
 
-        public TournamentInput CreateTournament(TournamentInput tournamentInput)
+        public Tournament CreateTournament(TournamentInput tournamentInput)
         {
-            return _tournamentRepository.CreateTournament(tournamentInput);
+            var tournament = _tournamentManager.MakeFirstRoundWithPreRounds(tournamentInput.Participants.Split("\n").ToList());
+            return _tournamentRepository.CreateTournament(tournament);
         }
 
         public Tournament GetTournament(int id)

@@ -9,6 +9,6 @@ namespace NSC_TournamentGen.Domain.IRepositories
         List<Tournament> ReadAllTournaments();
         Tournament DeleteTournament(int id);
         Tournament UpdateTournament(int id, Tournament tournament);
-        TournamentInput CreateTournament(TournamentInput tournamentInput);
+        Tournament CreateTournament(Tournament tournament);
     }
 }

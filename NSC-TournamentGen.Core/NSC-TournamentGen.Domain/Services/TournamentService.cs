@@ -34,7 +34,7 @@ namespace NSC_TournamentGen.Domain.Services
 
         public Tournament CreateTournament(TournamentInput tournamentInput)
         {
-            var tournament = _tournamentManager.MakeFirstRoundWithPreRounds(tournamentInput.Participants.Split("\n").ToList());
+            var tournament = _tournamentManager.MakeFirstRound(tournamentInput.Participants.Split("\n").ToList());
             return _tournamentRepository.CreateTournament(tournament);
         }
 

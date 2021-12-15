@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSC_TournamentGen.Core.IServices;
 using NSC_TournamentGen.Dtos;
+using NSC_TournamentGen.Security.Models;
 
 namespace NSC_TournamentGen.Controllers
 {
@@ -21,7 +22,7 @@ namespace NSC_TournamentGen.Controllers
             _userService = userService;
         }
 
-        [Authorize]
+        [Authorize(Roles = Role.Administrator)]
         [HttpGet]
 
         public ActionResult<UsersDto> ReadAll()
@@ -33,7 +34,8 @@ namespace NSC_TournamentGen.Controllers
                     {
                         Id = user.Id,
                         Username = user.Username,
-                        Password = user.Password
+                        Password = user.Password,
+                        Role = user.Role,
                     }).ToList();
 
                 return Ok(new UsersDto
@@ -61,11 +63,13 @@ namespace NSC_TournamentGen.Controllers
             {
                 Id = foundUser.Id,
                 Username = foundUser.Username,
-                Password = foundUser.Password
+                Password = foundUser.Password,
+                Role = foundUser.Role,
             });
             else return StatusCode(500, "User not found.");
         }
 
+        [Authorize(Roles = Role.Administrator)]
         // POST api/User -- CREATE
         [HttpPost]
         public ActionResult<UserDto> Post([FromBody] UserDto user)
@@ -77,7 +81,8 @@ namespace NSC_TournamentGen.Controllers
                 {
                     Id = createdUser.Id,
                     Username = createdUser.Username,
-                    Password = createdUser.Password
+                    Password = createdUser.Password,
+                    Role = createdUser.Role,
                 });
             }
             catch (Exception)
@@ -122,6 +127,7 @@ namespace NSC_TournamentGen.Controllers
             return BadRequest("Failed to update user.");
         }
 
+        [Authorize(Roles = Role.Administrator)]
         // DELETE api/User/5
         [HttpDelete("{id}")]
         public ActionResult<UserDto> Delete(int id)

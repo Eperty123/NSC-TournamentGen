@@ -211,15 +211,10 @@ namespace NSC_TournamentGen.Controllers
                                  new BracketDto
                                  {
                                       Id = 1,
-                                       Participant1 = new ParticipantDto
+                                           Participant1 = new ParticipantDto
                                        {
                                            Id = 1,
                                             Name = "Haruka",
-                                       },
-                                       Participant2 = new ParticipantDto
-                                       {
-                                           Id = 2,
-                                           Name = "Sora",
                                        }
                                  },
                              },

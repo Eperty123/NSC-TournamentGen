@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,8 @@ using NSC_TournamentGen.Core.IServices;
 using NSC_TournamentGen.Core.Models;
 using NSC_TournamentGen.Domain.Services;
 using NSC_TournamentGen.Dtos;
+
+
 
 namespace NSC_TournamentGen.Controllers
 {
@@ -20,6 +23,33 @@ namespace NSC_TournamentGen.Controllers
         public TournamentController(ITournamentService tournamentService)
         {
             _tournamentService = tournamentService;
+        }
+
+        [HttpPost]
+        public ActionResult<TournamentInputDto> CreateTournament([FromBody]TournamentInputDto tournamentInputDto)
+        {
+            try
+            {
+                var _tournamentInput = new TournamentInput
+                {
+                    AmountOfParticipants = tournamentInputDto.AmountOfParticipants,
+                    Participants = tournamentInputDto.Participants,
+                    Name = tournamentInputDto.Name
+                };
+                var createdTournament = _tournamentService.CreateTournament(_tournamentInput);
+                /*if (createdTournament != null) return Ok (new TournamentInputDto
+                {
+                    Participants = createdTournament.Participants,
+                    AmountOfParticipants = createdTournament.AmountOfParticipants
+                });*/
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Failed to create tournament.");
+            }
+
+            return BadRequest("Failed to create tournament.");
         }
 
         [HttpGet]

@@ -61,12 +61,35 @@ namespace NSC_TournamentGen.Controllers
                     {
                         Id = tournament.Id,
                         Name = tournament.Name,
-                        Type = tournament.Type,
-                    }).ToList();
+                        Rounds = tournament.Rounds.Select(round => new RoundDto()
+                        {
+                            Name = round.Name,
+                            Id = round.Id,
+                            Brackets = round.Brackets.Select(bracket => new BracketDto()
+                            {
+                                Id = bracket.Id,
+                                Participant1 = new ParticipantDto()
+                                {
+                                    Id = bracket.Participant1Id,
+                                    Name = bracket.Participant1.Name
+                                },
+                                Participant2 = new ParticipantDto()
+                                {
+                                    Id = bracket.Participant2Id,
+                                    Name = bracket.Participant2.Name
+                                }
+                            }).ToList()
+                        }).ToList(),
+                        User = new UserDto()
+                        {
+                            Id = tournament.UserId,
+                            Username = tournament.User.Username
+                        }
+                    });
 
                 return Ok(new TournamentsDto
                 {
-                    TournamentList = tournaments,
+                    TournamentList = tournaments.ToList()
                 });
             }
             catch (Exception)
@@ -83,15 +106,39 @@ namespace NSC_TournamentGen.Controllers
 
             // Id ok, proceed!
             var foundTournament = _tournamentService.GetTournament(id);
-            if (foundTournament != null) return Ok(new TournamentDto()
-            {
-                Id = foundTournament.Id,
-                Name = foundTournament.Name,
-                Participants = foundTournament.Participants,
-                Type = foundTournament.Type
-            });
+            if (foundTournament != null)
+                return Ok(new TournamentDto()
+                {
+                    Id = foundTournament.Id,
+                    Name = foundTournament.Name,
+                    Rounds = foundTournament.Rounds.Select(round => new RoundDto()
+                    {
+                        Name = round.Name,
+                        Id = round.Id,
+                        Brackets = round.Brackets.Select(bracket => new BracketDto()
+                        {
+                            Id = bracket.Id,
+                            Participant1 = new ParticipantDto()
+                            {
+                                Id = bracket.Participant1Id,
+                                Name = bracket.Participant1.Name
+                            },
+                            Participant2 = new ParticipantDto()
+                            {
+                                Id = bracket.Participant2Id,
+                                Name = bracket.Participant2.Name
+                            }
+                        }).ToList()
+                    }).ToList(),
+                    User = new UserDto()
+                    {
+                        Id = foundTournament.UserId,
+                        Username = foundTournament.User.Username
+                    }
+                });
             else return StatusCode(500, "User not found.");
         }
+
         // DELETE api/Tournament/5
         [HttpDelete("{id}")]
         public ActionResult<TournamentDto> Delete(int id)
@@ -102,13 +149,12 @@ namespace NSC_TournamentGen.Controllers
 
                 // Id ok, proceed!
                 var foundTournament = _tournamentService.DeleteTournament(id);
-                if (foundTournament != null) return Ok(new TournamentDto()
-                {
-                    Id = foundTournament.Id,
-                    Name = foundTournament.Name,
-                    Participants = foundTournament.Participants,
-                    Type = foundTournament.Type
-                });
+                if (foundTournament != null)
+                    return Ok(new TournamentDto()
+                    {
+                        Id = foundTournament.Id,
+                        Name = foundTournament.Name,
+                    });
                 else return BadRequest("Tournament not found");
             }
             catch (Exception)
@@ -116,6 +162,7 @@ namespace NSC_TournamentGen.Controllers
                 return StatusCode(500, "Failed to delete Tournament");
             }
         }
+
         // PUT api/Tournament/5 -- Update
         [HttpPut("{id}")]
         public ActionResult<TournamentDto> Put(int id, [FromBody] TournamentDto tournament)
@@ -131,9 +178,7 @@ namespace NSC_TournamentGen.Controllers
                 {
                     // Update the values of the found tournament with the replacement.
                     foundTournament.Name = tournament.Name;
-                    foundTournament.Participants = tournament.Participants;
-                    foundTournament.Type = tournament.Type;
-
+                    
                     // Update the replacement's id with the found one.
                     tournament.Id = foundTournament.Id;
 

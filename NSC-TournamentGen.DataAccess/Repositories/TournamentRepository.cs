@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using NSC_TournamentGen.Core.Models;
+using NSC_TournamentGen.DataAccess.Entities;
 using NSC_TournamentGen.Domain.IRepositories;
 
 namespace NSC_TournamentGen.DataAccess.Repositories
@@ -19,6 +20,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
         public Tournament ReadTournament(int id)
         {
             var tournamentEntity =  _ctx.Tournament
+                .Include(t => t.User)
                 .Include(t => t.Rounds)
                 .ThenInclude(r => r.Brackets)
                 .ThenInclude(b => b.Participant1)
@@ -52,15 +54,39 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             {
                 Id = tournamentEntity.Id,
                 Name = tournamentEntity.Name,
-                Participants2 = participants
-            };
+                Rounds = tournamentEntity.Rounds.Select(round => new Round
+                {
+                    Name = round.Name,
+                    Id = round.Id,
+                    Brackets = round.Brackets.Select(bracket => new Bracket
+                    {
+                        Id = bracket.Id,
+                        Participant1 = new Participant{
+                            Id = bracket.Participant1Id,
+                            Name = bracket.Participant1.Name
+                            },
+                        Participant2 = new Participant
+                        {
+                            Id = bracket.Participant2Id,
+                            Name = bracket.Participant2.Name
+                        }
 
+                    } ).ToList()
+                }).ToList(),
+                User = new User
+                {
+                    Id = tournamentEntity.UserId,
+                    Username = tournamentEntity.User.Username
+                }
+            };
+            
              return tournament;
         }
 
         public List<Tournament> ReadAllTournaments()
         {
             var tournamentEntityList =  _ctx.Tournament
+                .Include(t => t.User)
                 .Include(t => t.Rounds)
                 .ThenInclude(r => r.Brackets)
                 .ThenInclude(b => b.Participant1)
@@ -92,7 +118,30 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 {
                     Id = tournamentEntity.Id,
                     Name = tournamentEntity.Name,
-                    Participants2 = participants
+                    Rounds = tournamentEntity.Rounds.Select(round => new Round
+                    {
+                        Name = round.Name,
+                        Id = round.Id,
+                        Brackets = round.Brackets.Select(bracket => new Bracket
+                        {
+                            Id = bracket.Id,
+                            Participant1 = new Participant{
+                                Id = bracket.Participant1Id,
+                                Name = bracket.Participant1.Name
+                            },
+                            Participant2 = new Participant
+                            {
+                                Id = bracket.Participant2Id,
+                                Name = bracket.Participant2.Name
+                            }
+
+                        } ).ToList()
+                    }).ToList(),
+                    User = new User
+                    {
+                        Id = tournamentEntity.UserId,
+                        Username = tournamentEntity.User.Username
+                    }
                 };
                 tournamentList.Add(tournament);
             }

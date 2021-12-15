@@ -8,8 +8,10 @@ namespace NSC_TournamentGen.Core.Models
     {
         public int Id { get; set; }
         public string Name  { get; set; }
-        public TournamentType Type { get; set; }
-        public string Participants { get; set; }
-        public List<Participant> Participants2 { get; set; }
+        
+        // public List<TournamentUser> TournamentUsers { get; set; }
+        public List<Round> Rounds { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace NSC_TournamentGen.Core.Models
     public class TournamentManager
     {
         public int TournamentNumber;
+        public int AmountOfBrackets;
         public List<string> Participants { get; set; }
         ITournamentService _tournamentService;
 
@@ -26,6 +27,7 @@ namespace NSC_TournamentGen.Core.Models
         {
             Participants = new List<string>(tournamentInput.Participants.Split('\n'));
             CalculateTournamentNumber(Participants.Count); // need info about Amount of Participant -> tournament input      
+            CalculateAmountOfBracket(Participants);
             var rounds = GenerateAllRounds(Participants);
             return new Tournament()
             {
@@ -102,7 +104,7 @@ namespace NSC_TournamentGen.Core.Models
             var amountLeft = amountOfParticipants;
             var counter = 0;
             var idCounter = 1;
-            var amountOfBracket = Math.Round((decimal)amountOfParticipants / 2);
+            var amountOfBracket = Math.Round((decimal) amountOfParticipants / 2);
             var amountOfBracketToExecute = amountOfParticipants - TournamentNumber;
 
             for (int i = 0; i < amountOfBracket; i++)
@@ -176,11 +178,13 @@ namespace NSC_TournamentGen.Core.Models
                     }
                 }
             }
+
             return new Round
             {
                 Name = "Round 1",
                 Brackets = bracketsList
             };
+        }
 
         public List<Round> MakeAllBracketAfterFirstRound(List<string> participants)
         {
@@ -217,6 +221,35 @@ namespace NSC_TournamentGen.Core.Models
 
             return roundList;
         }
+
+        public int CalculateAmountOfBracket(List<string> participants)
+        {
+            var amountOfParticipant = participants.Count;
+            var t = TournamentNumber;
+            var amountOfBracketInPreRounds = Math.Ceiling((double) amountOfParticipant)/2;
+            var totalbracket = (int)amountOfBracketInPreRounds + t - 1;
+
+            if (amountOfParticipant == 32)
+            {
+                return AmountOfBrackets = t-1;
+            }
+            if (amountOfParticipant == 16)
+            {
+                return AmountOfBrackets = t-1;
+            }
+            if (amountOfParticipant == 8)
+            {
+                return AmountOfBrackets = t-1;
+            }
+            if (amountOfParticipant == 4)
+            {
+                return AmountOfBrackets = t-1;
+            }
+            return AmountOfBrackets = totalbracket;
+
+
+        }
+        
   
         public List<string> MakeRandomList(List<string> participants)
         {

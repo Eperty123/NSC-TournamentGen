@@ -181,8 +181,43 @@ namespace NSC_TournamentGen.Core.Models
                 Name = "Round 1",
                 Brackets = bracketsList
             };
-        }
 
+        public List<Round> MakeAllBracketAfterFirstRound(List<string> participants)
+        {
+            var t = TournamentNumber;
+            var players = participants.Count;
+            var bracketsList = new List<Bracket>();
+            var roundList = new List<Round>();
+
+            if (players == 4 || players == 8 || players == 16 || players == 32)
+            {
+                t = t / 2;
+            }
+            var rounds = t;
+            
+            t = t / 2;
+
+            while (rounds > 1)
+            {
+                for (int i = 0; i < t; i++)
+                {
+                    var bracket = new Bracket();
+                    bracketsList.Add(bracket);
+                }
+                var round = new Round
+                {
+                    Name = "skal laves",
+                    Brackets = new List<Bracket>(bracketsList)
+                };
+                bracketsList.Clear();
+                rounds /= 2;
+                t /=2 ;
+                roundList.Add(round);
+            }
+
+            return roundList;
+        }
+  
         public List<string> MakeRandomList(List<string> participants)
         {
             var random = new Random();

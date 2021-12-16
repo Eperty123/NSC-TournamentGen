@@ -14,9 +14,9 @@ namespace NSC_TournamentGen.Domain.Services
         public TournamentService(ITournamentRepository tournamentRepository)
         {
             _tournamentRepository = tournamentRepository;
-            _tournamentManager = new TournamentManager();
+            _tournamentManager = new TournamentManager(this);
         }
-        
+
         public List<Tournament> GetAllTournaments()
         {
             return _tournamentRepository.ReadAllTournaments();
@@ -34,13 +34,18 @@ namespace NSC_TournamentGen.Domain.Services
 
         public Tournament CreateTournament(TournamentInput tournamentInput)
         {
-            var tournament = _tournamentManager.MakeFirstRound(tournamentInput.Participants.Split("\n").ToList());
+            var tournament = _tournamentManager.MakeTournament(tournamentInput);
             return _tournamentRepository.CreateTournament(tournament);
         }
 
         public Tournament GetTournament(int id)
         {
             return _tournamentRepository.ReadTournament(id);
+        }
+
+        public Tournament MakeWinner(int tournamentId, int roundId, int bracketId, int participantId)
+        {
+            return _tournamentRepository.MakeWinner(tournamentId, roundId, bracketId, participantId);
         }
     }
 }

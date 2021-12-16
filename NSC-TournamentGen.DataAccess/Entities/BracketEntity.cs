@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NSC_TournamentGen.DataAccess.Entities
+﻿namespace NSC_TournamentGen.DataAccess.Entities
 {
     public class BracketEntity
     {

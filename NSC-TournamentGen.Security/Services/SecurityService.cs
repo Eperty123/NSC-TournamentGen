@@ -54,10 +54,23 @@ namespace NSC_TournamentGen.Security.Services
                 );
 
                 var generatedJwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+                // Encrypt the role as base64 string to make sure nobody knows what it is for.
+                var encodedRole = Convert.ToBase64String(Encoding.ASCII.GetBytes(user.Role), 0, user.Role.Length);
+
+                // Stuff to include in the jwt token.
+                // Front-end must split the content by a vertical bar (|)
+                // to get the correct data it needs.
+                var tokenContent = new List<string>()
+                {
+                    encodedRole,
+                    generatedJwt,
+                };
                 return new JwtToken
                 {
-                    Jwt = generatedJwt,
-                    Message = "Token generated.",
+                    // Role | jwt token.
+                    Jwt = string.Join("|", tokenContent),
+                    Message = "Login OK.",
                 };
             }
             else

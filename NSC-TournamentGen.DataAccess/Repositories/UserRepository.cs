@@ -21,7 +21,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
                 // Create the user in the database.
-                _ctx.User.Add(new Entities.UserEntity { Username = username, Password = password });
+                _ctx.Users.Add(new Entities.UserEntity { Username = username, Password = password });
                 _ctx.SaveChanges();
 
                 // Return a new instance of the created user in User form.
@@ -32,7 +32,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
 
         public User ReadUser(int id)
         {
-            return _ctx.User.Select(u => new User
+            return _ctx.Users.Select(u => new User
             {
                 Id = u.Id,
                 Username = u.Username,
@@ -42,7 +42,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
 
         public List<User> ReadAll()
         {
-            return _ctx.User.Select(u => new User
+            return _ctx.Users.Select(u => new User
             {
                 Id = u.Id,
                 Username = u.Username,
@@ -52,12 +52,12 @@ namespace NSC_TournamentGen.DataAccess.Repositories
 
         public User DeleteUser(int id)
         {
-            var foundUser = _ctx.User.FirstOrDefault(x => x.Id == id);
+            var foundUser = _ctx.Users.FirstOrDefault(x => x.Id == id);
 
             if (foundUser != null)
             {
                 // Remove from the database.
-                _ctx.User.Remove(foundUser);
+                _ctx.Users.Remove(foundUser);
 
                 // Save changes to the database.
                 _ctx.SaveChanges();
@@ -72,7 +72,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
 
         public User UpdateUser(int id, User user)
         {
-            var foundUser = _ctx.User.FirstOrDefault(x => x.Id == id);
+            var foundUser = _ctx.Users.FirstOrDefault(x => x.Id == id);
 
             if (foundUser != null)
             {
@@ -81,7 +81,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 foundUser.Password = user.Password;
 
                 // Update the found user in the database.
-                _ctx.User.Update(foundUser);
+                _ctx.Users.Update(foundUser);
 
                 // Save changes to the database.
                 _ctx.SaveChanges();

@@ -12,8 +12,7 @@ namespace NSC_TournamentGen.Core.Models
         public Participant  Participant2 { get; set; }
         public int RoundId { get; set; }
         public Round Round { get; set; }
-        public int WinnerId1 { get; set; }
-        public int WinnerId2 { get; set; }
+        public int WinnerId { get; set; }
         public bool IsExecuted { get; set; }
     }
     

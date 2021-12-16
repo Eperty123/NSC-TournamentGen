@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NSC_TournamentGen.Converters;
 using NSC_TournamentGen.Core.IServices;
 using NSC_TournamentGen.Core.Models;
+using NSC_TournamentGen.DataAccess.Repositories;
+using NSC_TournamentGen.Domain.IRepositories;
 using NSC_TournamentGen.Domain.Services;
 using NSC_TournamentGen.Dtos;
-
-
 
 namespace NSC_TournamentGen.Controllers
 {
@@ -25,79 +25,49 @@ namespace NSC_TournamentGen.Controllers
             _tournamentService = tournamentService;
         }
 
+
         [HttpPost]
-        public ActionResult<TournamentInputDto> CreateTournament([FromBody]TournamentInputDto tournamentInputDto)
+        public ActionResult<TournamentDto> Create([FromBody] TournamentInput tournamentInput)
         {
-            try
-            {
-                var _tournamentInput = new TournamentInput
-                {
-                    AmountOfParticipants = tournamentInputDto.AmountOfParticipants,
-                    Participants = tournamentInputDto.Participants,
-                    Name = tournamentInputDto.Name
-                };
-                var createdTournament = _tournamentService.CreateTournament(_tournamentInput);
-                /*if (createdTournament != null) return Ok (new TournamentInputDto
-                {
-                    Participants = createdTournament.Participants,
-                    AmountOfParticipants = createdTournament.AmountOfParticipants
-                });*/
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Failed to create tournament.");
-            }
-
-            return BadRequest("Failed to create tournament.");
+            var generatedTournament = _tournamentService.CreateTournament(tournamentInput);
+            if (generatedTournament != null) return Ok(generatedTournament.ToDto());
+            return BadRequest("Failed to create tournament! Please try again.");
         }
 
-        [HttpGet]
-        public ActionResult<TournamentsDto> ReadAll()
+        [HttpPut("winner/{id}")]
+        public ActionResult<TournamentDto> MakeWinner([FromBody] WinnerDto winnerDto)
         {
-            try
+            var foundTournament = _tournamentService.GetTournament(winnerDto.TournamentId);
+            if (foundTournament != null)
             {
-                var tournaments = _tournamentService.GetAllTournaments()
-                    .Select(tournament => new TournamentDto
-                    {
-                        Id = tournament.Id,
-                        Name = tournament.Name,
-                        Rounds = tournament.Rounds.Select(round => new RoundDto()
-                        {
-                            Name = round.Name,
-                            Id = round.Id,
-                            Brackets = round.Brackets.Select(bracket => new BracketDto()
-                            {
-                                Id = bracket.Id,
-                                Participant1 = new ParticipantDto()
-                                {
-                                    Id = bracket.Participant1Id,
-                                    Name = bracket.Participant1.Name
-                                },
-                                Participant2 = new ParticipantDto()
-                                {
-                                    Id = bracket.Participant2Id,
-                                    Name = bracket.Participant2.Name
-                                }
-                            }).ToList()
-                        }).ToList(),
-                        User = new UserDto()
-                        {
-                            Id = tournament.UserId,
-                            Username = tournament.User.Username
-                        }
-                    });
-
-                return Ok(new TournamentsDto
-                {
-                    TournamentList = tournaments.ToList()
-                });
+                return Ok(_tournamentService.MakeWinner(winnerDto.TournamentId, winnerDto.RoundId, winnerDto.BracketId, winnerDto.ParticipantId).ToDto());
             }
-            catch (Exception)
-            {
-                return StatusCode(500, "sikke noget lort");
-            }
+            return BadRequest("Failed to update tournament! Please try again.");
         }
+
+        //[HttpGet]
+        //public ActionResult<TournamentsDto> ReadAll()
+        //{
+        //    try
+        //    {
+        //        var tournaments = _tournamentService.GetAllTournaments()
+        //            .Select(tournament => new TournamentDto
+        //            {
+        //                Id = tournament.Id,
+        //                Name = tournament.Name,
+        //                Type = tournament.Type,
+        //            }).ToList();
+
+        //        return Ok(new TournamentsDto
+        //        {
+        //            TournamentList = tournaments,
+        //        });
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return StatusCode(500, "sikke noget lort");
+        //    }
+        //}
 
         // GET api/Tournament/5 -- READ By Id
         [HttpGet("{id}")]
@@ -105,96 +75,207 @@ namespace NSC_TournamentGen.Controllers
         {
             if (id < 1) return BadRequest("Id must be greater then 0!");
 
+            //var manager = new TournamentManager(_tournamentService);
+            //var input = new TournamentInput()
+            //{
+            //    Name = "Test",
+            //    Participants = "Lugh\nTarte\nRuti\nRed\nHaruka\nSora\nKunai\nLuna\nAku\nQueen",
+            //};
+            //var generatedTournament = manager.MakeTournament(input.Participants.Split('\n').ToList());
+
+            //return Ok(generatedTournament.ToDto());
+
+            var tournament = _tournamentService.GetTournament(id);
+            if (tournament != null)
+                return Ok(tournament.ToDto());
+            return BadRequest("The tournament does not exist.");
+
             // Id ok, proceed!
-            var foundTournament = _tournamentService.GetTournament(id);
-            if (foundTournament != null)
-                return Ok(new TournamentDto()
-                {
-                    Id = foundTournament.Id,
-                    Name = foundTournament.Name,
-                    Rounds = foundTournament.Rounds.Select(round => new RoundDto()
-                    {
-                        Name = round.Name,
-                        Id = round.Id,
-                        Brackets = round.Brackets.Select(bracket => new BracketDto()
-                        {
-                            Id = bracket.Id,
-                            Participant1 = new ParticipantDto()
-                            {
-                                Id = bracket.Participant1Id,
-                                Name = bracket.Participant1.Name
-                            },
-                            Participant2 = new ParticipantDto()
-                            {
-                                Id = bracket.Participant2Id,
-                                Name = bracket.Participant2.Name
-                            }
-                        }).ToList()
-                    }).ToList(),
-                    User = new UserDto()
-                    {
-                        Id = foundTournament.UserId,
-                        Username = foundTournament.User.Username
-                    }
-                });
-            else return StatusCode(500, "User not found.");
+            //return Ok(new TournamentDto
+            //{
+            //    Id = 1,
+            //    Name = "Hentai Tournament",
+            //    Rounds = new List<RoundDto>()
+            //      {
+            //          new RoundDto
+            //          {
+            //               Id = 1,
+            //                Name = "Pre-round 0",
+            //                 Brackets = new List<BracketDto>()
+            //                 {
+            //                     new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                           Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Red",
+
+            //                           },
+            //                           Participant2 = new ParticipantDto
+            //                           {
+            //                               Id = 2,
+            //                               Name = "Ruti"
+            //                           }
+            //                     },
+            //                          new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                           Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Lough",
+
+            //                           },
+            //                           Participant2 = new ParticipantDto
+            //                           {
+            //                               Id = 2,
+            //                               Name = "Tarte"
+            //                           }
+            //                     }
+            //                 },
+            //          }
+            //          ,
+            //          new RoundDto
+            //          {
+            //               Id = 1,
+            //                Name = "Round 1",
+            //                 Brackets = new List<BracketDto>()
+            //                 {
+            //                     new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                           Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Haruka",
+            //                           },
+            //                           Participant2 = new ParticipantDto
+            //                           {
+            //                               Id = 2,
+            //                               Name = "Sora",
+            //                           }
+            //                     },
+            //                          new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                           Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Lough",
+
+            //                           },
+            //                           Participant2 = new ParticipantDto
+            //                           {
+            //                               Id = 2,
+            //                               Name = "Tarte"
+            //                           }
+            //                     },
+            //                          new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                           Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Placeholder 1",
+
+            //                           },
+            //                           Participant2 = new ParticipantDto
+            //                           {
+            //                               Id = 2,
+            //                               Name = "Placeholder 2"
+            //                           }
+            //                     },
+            //                          new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                           Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Placeholder 3",
+
+            //                           },
+            //                           Participant2 = new ParticipantDto
+            //                           {
+            //                               Id = 2,
+            //                               Name = "Placeholder 4"
+            //                           }
+            //                     }
+            //                 },
+            //          },
+            //          new RoundDto
+            //          {
+            //               Id = 1,
+            //                Name = "Round 2 (Semi final)",
+            //                 Brackets = new List<BracketDto>()
+            //                 {
+            //                     new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                           Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Haruka",
+            //                           },
+            //                           Participant2 = new ParticipantDto
+            //                           {
+            //                               Id = 2,
+            //                               Name = "Sora",
+            //                           }
+            //                     },
+            //                          new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                           Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Lough",
+
+            //                           },
+            //                           Participant2 = new ParticipantDto
+            //                           {
+            //                               Id = 2,
+            //                               Name = "Tarte"
+            //                           }
+            //                     },
+            //                 },
+            //          },
+            //          new RoundDto
+            //          {
+            //               Id = 1,
+            //                Name = "Round 3 (Final)",
+            //                 Brackets = new List<BracketDto>()
+            //                 {
+            //                     new BracketDto
+            //                     {
+            //                          Id = 1,
+            //                               Participant1 = new ParticipantDto
+            //                           {
+            //                               Id = 1,
+            //                                Name = "Haruka",
+            //                           }
+            //                     },
+            //                 },
+            //          }
+            //      },
+            //    User = new UserDto
+            //    {
+            //        Id = 1,
+            //        Username = "Erika",
+            //        Password = "213",
+            //    },
+            //});
+            //var foundTournament = _tournamentService.GetTournament(id);
+            //if (foundTournament != null) return Ok(new TournamentDto()
+            //{
+            //    Id = foundTournament.Id,
+            //    Name = foundTournament.Name,
+            //    Rounds = 
+
+
+            //});
+            //else return StatusCode(500, "User not found.");
         }
 
-        // DELETE api/Tournament/5
-        [HttpDelete("{id}")]
-        public ActionResult<TournamentDto> Delete(int id)
-        {
-            try
-            {
-                if (id < 1) return BadRequest("Id must be greater then 0!");
-
-                // Id ok, proceed!
-                var foundTournament = _tournamentService.DeleteTournament(id);
-                if (foundTournament != null)
-                    return Ok(new TournamentDto()
-                    {
-                        Id = foundTournament.Id,
-                        Name = foundTournament.Name,
-                    });
-                else return BadRequest("Tournament not found");
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Failed to delete Tournament");
-            }
-        }
-
-        // PUT api/Tournament/5 -- Update
-        [HttpPut("{id}")]
-        public ActionResult<TournamentDto> Put(int id, [FromBody] TournamentDto tournament)
-        {
-            try
-            {
-                if (id < 1) return BadRequest("Id must be greater then 0!");
-
-                // Id ok, proceed!
-
-                var foundTournament = _tournamentService.GetTournament(id);
-                if (foundTournament != null)
-                {
-                    // Update the values of the found tournament with the replacement.
-                    foundTournament.Name = tournament.Name;
-                    
-                    // Update the replacement's id with the found one.
-                    tournament.Id = foundTournament.Id;
-
-                    // Now update the tournament.
-                    var updatedTournament = _tournamentService.UpdateTournament(id, foundTournament);
-                    if (updatedTournament != null) return Ok(tournament);
-                }
-                else return BadRequest("Tournament not found.");
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Failed to update tournament.");
-            }
-
-            return BadRequest("Failed to update tournament.");
-        }
     }
 }

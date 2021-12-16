@@ -10,5 +10,6 @@ namespace NSC_TournamentGen.Core.IServices
         Tournament DeleteTournament(int id);
         Tournament UpdateTournament(int id, Tournament tournament);
         Tournament CreateTournament(TournamentInput tournamentInput);
+        public Tournament MakeWinner(int tournamentId, int roundId, int bracketId, int participantId);
     }
 }

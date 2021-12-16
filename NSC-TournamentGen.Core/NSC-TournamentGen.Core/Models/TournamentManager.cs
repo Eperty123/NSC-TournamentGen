@@ -8,6 +8,7 @@ namespace NSC_TournamentGen.Core.Models
     public class TournamentManager
     {
         public int TournamentNumber;
+        public int AmountOfBrackets;
         public List<string> Participants { get; set; }
         ITournamentService _tournamentService;
 
@@ -26,6 +27,7 @@ namespace NSC_TournamentGen.Core.Models
         {
             Participants = new List<string>(tournamentInput.Participants.Split('\n'));
             CalculateTournamentNumber(Participants.Count); // need info about Amount of Participant -> tournament input      
+            CalculateAmountOfBracket(Participants);
             var rounds = GenerateAllRounds(Participants);
             return new Tournament()
             {
@@ -162,7 +164,7 @@ namespace NSC_TournamentGen.Core.Models
             var amountLeft = amountOfParticipants;
             var counter = 0;
             var idCounter = 1;
-            var amountOfBracket = Math.Round((decimal)amountOfParticipants / 2);
+            var amountOfBracket = Math.Round((decimal) amountOfParticipants / 2);
             var amountOfBracketToExecute = amountOfParticipants - TournamentNumber;
 
             for (int i = 0; i < amountOfBracket; i++)
@@ -236,6 +238,7 @@ namespace NSC_TournamentGen.Core.Models
                     }
                 }
             }
+
             return new Round
             {
                 Name = "Round 1",

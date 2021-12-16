@@ -31,7 +31,7 @@ namespace NSC_TournamentGen.Core.Test
             var participantList = tInput.Participants.Split('\n').ToList();
             var manager = new TournamentManager(_service.Object);
             manager.MakeTournament(tInput);
-            Assert.Equal(expected: 2, manager.AmountOfBrackets);
+            Assert.Equal(expected: 3, manager.AmountOfBrackets);
 
         }
 
@@ -40,12 +40,12 @@ namespace NSC_TournamentGen.Core.Test
         {
             var tInput = new TournamentInput()
             {
-                Participants = "Carlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus"
+                Participants = "Carlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus\nCarlo\nRasmus"
             };
             var participantList = tInput.Participants.Split('\n').ToList();
             var manager = new TournamentManager(_service.Object);
             manager.MakeTournament(tInput);
-            Assert.Equal(expected: 5, manager.AmountOfBrackets);
+            Assert.Equal(expected: 12, manager.AmountOfBrackets);
         }
 
         [Fact]
@@ -61,23 +61,10 @@ namespace NSC_TournamentGen.Core.Test
             var rounds = manager.GenerateAllRounds(participantList);
 
             Console.WriteLine(string.Join(",", rounds));
-            Assert.Equal(4, rounds.Count);
+            Assert.Equal(3, rounds.Count);
         }
         
-        [Fact]
-        void TournamentManager_CanGenerateSingleEliminationWithfifteenParticipants()
-        {
-            var tInput = new TournamentInput()
-            {
-                Participants = "Svend\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus\nCarlo\nRasmus\nNiko\nCarlo\nRasmus"
-            };
-            var participantList = tInput.Participants.Split('\n').ToList();
-            tInput.AmountOfParticipants = participantList.Count;
-            var manager = new TournamentManager();
-            manager.MakeTournament(tInput,participantList);
-            Assert.Equal(expected:8,manager.AmountOfBracket);
-            
-        }
+       
         
     }
 }

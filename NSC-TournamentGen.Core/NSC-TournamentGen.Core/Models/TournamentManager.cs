@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NSC_TournamentGen.Core.IServices;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace NSC_TournamentGen.Core.Models
@@ -8,79 +8,106 @@ namespace NSC_TournamentGen.Core.Models
     public class TournamentManager
     {
         public int TournamentNumber;
-        public int AmountOfBracket;
-        public int RoundsBracket = 7;
+        public List<string> Participants { get; set; }
+        ITournamentService _tournamentService;
 
-        public int AmountOfRounds;
-        //public Dictionary<int, List<Bracket>> BracketsDictionary;
-
-
-/*
-        public TournamentManager()
+        public TournamentManager(ITournamentService tournamentService)
         {
             Initialize();
+            _tournamentService = tournamentService;
         }
 
         private void Initialize()
         {
-            BracketsDictionary = new Dictionary<int, List<Bracket>>();
+            Participants = new List<string>();
         }
 
-        public void TestPrintD()
+        public Tournament MakeTournament(TournamentInput tournamentInput)
         {
-            foreach (KeyValuePair<int, List<Bracket>> list in BracketsDictionary)
+            Participants = new List<string>(tournamentInput.Participants.Split('\n'));
+            CalculateTournamentNumber(Participants.Count); // need info about Amount of Participant -> tournament input      
+            var rounds = GenerateAllRounds(Participants);
+            return new Tournament()
             {
-                Console.WriteLine("Key: {0}, Value: {1}",
-                    list.Key, list.Value);
-            }
+                Id = 1,
+                Name = tournamentInput.Name,
+                Rounds = rounds,
+            };
         }
-*/
 
-        public void MakeTournament(TournamentInput tournamentInput, List<string> participants)
+        public Bracket UpdateBracketWinner(int tournamentId, int roundId, int participantId)
         {
-            CalculateTournamentNumber(tournamentInput.AmountOfParticipants); // need info about Amount of Participant -> tournament input
-            CalculateAmountOfRounds(tournamentInput
-                .AmountOfParticipants); // need info about Amount of Participant -> tournament input + TournamentNumber
-            CalculateAmountOfBracket(tournamentInput
-                .AmountOfParticipants); // need info about Amount of Participant -> tournament input + TournamentNumber
-            MakeFirstRound(participants);
-            MakeAllBracketAfterFirstRound(participants);
-
-            // MakeBracketForTournament(tournamentInput.AmountOfParticipants);
-        }
-/*
-        public void MakeBracketForTournament(int amountOfParticipants)
-        {
-            if (NoPreRounds(amountOfParticipants))
+            var tournament = _tournamentService.GetTournament(tournamentId);
+            var desiredRound = tournament.Rounds.FirstOrDefault(x => x.Id == roundId);
+            var desiredBracket = desiredRound.Brackets.FirstOrDefault(x => x.Participant1Id == participantId || x.Participant2Id == participantId);
+            if (desiredBracket != null)
             {
-                MakeFirstRoundWithNoPreRounds();
-                MakeAllBracketAfterFirstRound();
+                desiredBracket.WinnerId = participantId;
+                return desiredBracket;
             }
-            else
-            {   MakePreRounds(amountOfParticipants);
-                MakeFirstRoundWithPreRounds(amountOfParticipants);
-                MakeAllBracketAfterFirstRound();
-            }
+            return null;
         }
 
-*/
+        public bool IsRoundComplete(Round round)
+        {
+            return round != null && round.Brackets.All(x => x.WinnerId > 0);
+        }
 
+        public List<Round> GenerateAllRounds(List<string> participants)
+        {
+            var t = TournamentNumber;
+            var players = participants.Count;
+            var bracketsList = new List<Bracket>();
+            var roundList = new List<Round>();
+            int id = 0;
+
+            if (players == 4 || players == 8 || players == 16 || players == 32)
+            {
+                t = t / 2;
+            }
+            var rounds = t;
+
+            t = t / 2;
+
+            roundList.Add(MakeFirstRound(participants));
+
+            while (rounds > 1)
+            {
+                for (int i = 0; i < t; i++)
+                {
+                    var bracket = new Bracket();
+                    bracketsList.Add(bracket);
+                }
+                var round = new Round
+                {
+                    Name = $"Round {id + 1 }",
+                    Brackets = new List<Bracket>(bracketsList)
+                };
+                bracketsList.Clear();
+                rounds /= 2;
+                t /= 2;
+                roundList.Add(round);
+                id++;
+            }
+
+
+            return roundList;
+        }
 
         public Round MakeFirstRound(List<string> participants)
         {
             var randomList = MakeRandomList(participants);
             var amountOfParticipants = randomList.Count;
-            var t = TournamentNumber;
             var bracketsList = new List<Bracket>();
             var amountLeft = amountOfParticipants;
             var counter = 0;
             var idCounter = 1;
-            var amountOfBracket = Math.Ceiling((double) amountOfParticipants / 2);
-            var amountOfBracketExe = amountOfParticipants - TournamentNumber;
+            var amountOfBracket = Math.Round((decimal)amountOfParticipants / 2);
+            var amountOfBracketToExecute = amountOfParticipants - TournamentNumber;
 
             for (int i = 0; i < amountOfBracket; i++)
             {
-                if (amountOfBracketExe > i)
+                if (amountOfBracketToExecute > i)
                 {
                     var bracket = new Bracket
                     {
@@ -129,8 +156,7 @@ namespace NSC_TournamentGen.Core.Models
                             Id = idCounter,
                             Name = part2Name
                         };
-                        bracket1.WinnerId1 = bracket1.Participant1.Id;
-                        bracket1.WinnerId2 = bracket1.Participant2.Id;
+                        bracket1.WinnerId = bracket1.Participant1.Id;
                         amountLeft = amountLeft - 2;
                         bracketsList.Add(bracket1);
                     }
@@ -145,7 +171,7 @@ namespace NSC_TournamentGen.Core.Models
                         };
                         idCounter++;
                         amountLeft--;
-                        bracket1.WinnerId1 = bracket1.Participant1.Id;
+                        bracket1.WinnerId = bracket1.Participant1.Id;
                         bracketsList.Add(bracket1);
                     }
                 }
@@ -155,100 +181,7 @@ namespace NSC_TournamentGen.Core.Models
                 Name = "Round 1",
                 Brackets = bracketsList
             };
-            
-        }
 
-
-        /*  
-        
-
-        public Tournament MakeFirstRoundWithPreRounds(List<string> participants)
-        {
-            var randomList = MakeRandomList(participants);
-            var amountOfParticipants = randomList.Count;
-            var aor = AmountOfRounds;
-            var t = TournamentNumber;
-            var bracketsList = new List<Bracket>();
-            var amountLeft = amountOfParticipants - ((amountOfParticipants - t) * 2);
-            var counter = (amountOfParticipants - t) * 2;
-
-            for (int i = 0; i < t / 2; i++)
-            {
-                var bracket = new Bracket
-                {
-                    Id = i + 1
-                };
-                
-                if (amountLeft == 0)
-                {
-                    bracketsList.Add(bracket);
-                }
-                if (amountLeft % 2 == 0 && amountLeft > 0)
-                {
-                    var part1Name = randomList[i + counter];
-                    bracket.Participant1 = new Participant
-                    {
-                        Name = part1Name
-                    };
-                    counter++;
-                    var part2Name = randomList[i + counter];
-                    bracket.Participant2 = new Participant
-                    {
-                        Name = part2Name
-                    };;
-                    amountLeft = amountLeft - 2;
-                    bracketsList.Add(bracket);
-                }
-                if (amountLeft % 2 == 1 && amountLeft > 0)
-                {
-                    var part1Name = randomList[i + counter];
-                    bracket.Participant1 = new Participant
-                    {
-                        Name = part1Name
-                    };
-                    amountLeft--;
-                    bracketsList.Add(bracket);
-                }
-            }
-
-            var round = new Round
-            {
-                Name = "Round 1",
-                Brackets = bracketsList
-            };
-            return new Tournament
-            {
-                Name = "Tha Tournament",
-                Rounds = new List<Round> {round},
-                UserId = 1
-            };
-            // BracketsDictionary.Add(t, bracketsList);
-        }
-
-        public void MakeFirstRoundWithNoPreRounds()
-        {
-            var t = TournamentNumber;
-            var counter = 0;
-            var bracketsList = new List<Bracket>();
-
-            for (int i = 0; i < t / 2; i++)
-            {
-                var bracket = new Bracket
-                {
-                    Id = i + 1,
-                    Participants = new List<string>()
-                };
-                
-                bracket.Participants.Add(RandomParticipantsList[i + counter]);
-                counter++;
-                bracket.Participants.Add(RandomParticipantsList[i + counter]);
-                
-                bracketsList.Add(bracket);
-            }
-
-            BracketsDictionary.Add(t, bracketsList);
-        }
-*/
         public List<Round> MakeAllBracketAfterFirstRound(List<string> participants)
         {
             var t = TournamentNumber;
@@ -284,9 +217,7 @@ namespace NSC_TournamentGen.Core.Models
 
             return roundList;
         }
-
-      
-
+  
         public List<string> MakeRandomList(List<string> participants)
         {
             var random = new Random();
@@ -295,52 +226,6 @@ namespace NSC_TournamentGen.Core.Models
 
             return testList.ToList();
         }
-
-
-        public bool NoPreRounds(int amountOfParticipants)
-        {
-            var t = TournamentNumber;
-            if (t - amountOfParticipants != 0)
-            {
-                return false;
-            }
-
-            if (t - amountOfParticipants == 0)
-            {
-                return true;
-            }
-
-            throw new Exception("Noget gik galt med noPreRounds");
-        }
-
-
-        public int CalculateAmountOfBracket(int amountOfParticipants)
-        {
-            var t = TournamentNumber;
-            var testDouble = Math.Ceiling((double)amountOfParticipants/2);
-            return AmountOfBracket = (int) testDouble;
-        }
-
-       
-
-        public int CalculateAmountOfRounds(int amountOfParticipants)
-        {
-            var t = TournamentNumber;
-            while (t > 1)
-            {
-                t = t / 2;
-                AmountOfRounds++;
-            }
-
-            if (!NoPreRounds(amountOfParticipants))
-            {
-                return AmountOfRounds + 1;
-            }
-
-
-            return AmountOfRounds;
-        }
-
 
         public int CalculateTournamentNumber(int amountOfParticipants)
         {

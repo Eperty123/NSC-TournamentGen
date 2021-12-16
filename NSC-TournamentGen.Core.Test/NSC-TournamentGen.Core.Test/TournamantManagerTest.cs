@@ -1,4 +1,8 @@
-﻿using NSC_TournamentGen.Core.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using NSC_TournamentGen.Core.IServices;
+using NSC_TournamentGen.Core.Models;
+using NSC_TournamentGen.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,12 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NSC_TournamentGen.Core.Test
 {
 
     public class TournamantManagerTest
     {
+        Mock<ITournamentService> _service = new Mock<ITournamentService>();
 
         [Fact]
         void TournamentManager_CanGenerateSingleEliminationWithFourParticipants()
@@ -20,27 +26,42 @@ namespace NSC_TournamentGen.Core.Test
             {
                 Participants = "Svend\nNiko\nCarlo\nRasmus"
             };
+
+
             var participantList = tInput.Participants.Split('\n').ToList();
-            tInput.AmountOfParticipants = participantList.Count;
-            var manager = new TournamentManager();
-            manager.MakeTournament(tInput,participantList);
-            Assert.Equal(expected:2,manager.AmountOfBracket);
-            
+            var manager = new TournamentManager(_service.Object);
+            manager.MakeTournament(tInput);
+            Assert.Equal(expected: 2, manager.AmountOfBrackets);
+
         }
-        
+
         [Fact]
         void TournamentManager_CanGenerateSingleEliminationWithTenParticipants()
         {
             var tInput = new TournamentInput()
             {
-                Participants = "Svend\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus"
+                Participants = "Carlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus"
             };
             var participantList = tInput.Participants.Split('\n').ToList();
-            tInput.AmountOfParticipants = participantList.Count;
-            var manager = new TournamentManager();
-            manager.MakeTournament(tInput,participantList);
-            Assert.Equal(expected:5,manager.AmountOfBracket);
-            
+            var manager = new TournamentManager(_service.Object);
+            manager.MakeTournament(tInput);
+            Assert.Equal(expected: 5, manager.AmountOfBrackets);
+        }
+
+        [Fact]
+        void TournamentManager_GenerateRounds()
+        {
+            var tInput = new TournamentInput()
+            {
+                Participants = "Carlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus"
+            };
+            var participantList = tInput.Participants.Split('\n').ToList();
+            var manager = new TournamentManager(_service.Object);
+            manager.MakeTournament(tInput);
+            var rounds = manager.GenerateAllRounds(participantList);
+
+            Console.WriteLine(string.Join(",", rounds));
+            Assert.Equal(4, rounds.Count);
         }
         
         [Fact]

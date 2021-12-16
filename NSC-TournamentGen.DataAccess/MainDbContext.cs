@@ -6,59 +6,70 @@ namespace NSC_TournamentGen.DataAccess
 {
     public class MainDbContext : DbContext
     {
-        
-        public MainDbContext(DbContextOptions<MainDbContext> options): base(options) {}
-        public DbSet<UserEntity> User { get; set; }
-        public DbSet<TournamentEntity> Tournament { get; set; }
-        public DbSet<RoundEntity> Round { get; set; }
-        public DbSet<ParticipantEntity> Participant { get; set; }
-        public DbSet<BracketEntity> Bracket { get; set; }
-        public DbSet<TournamentUserEntity> TournamentUser { get; set; }
+
+        public MainDbContext(DbContextOptions<MainDbContext> options) : base(options) { }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<TournamentEntity> Tournaments { get; set; }
+        public DbSet<RoundEntity> Rounds { get; set; }
+        public DbSet<ParticipantEntity> Participants { get; set; }
+        public DbSet<BracketEntity> Brackets { get; set; }
+        public DbSet<TournamentUserEntity> TournamentUsers { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
+            //modelBuilder.Entity<BracketEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
+            //modelBuilder.Entity<ParticipantEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
+            //modelBuilder.Entity<RoundEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
+            //modelBuilder.Entity<TournamentEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
+            //modelBuilder.Entity<UserEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
+
             modelBuilder.Entity<BracketEntity>()
                 .HasOne(c => c.Participant1)
-                .WithMany(ct => ct.BracketsParticipants1)
-                .OnDelete(DeleteBehavior.SetNull);
-            
+            .WithMany(ct => ct.BracketsParticipants1)
+            .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<BracketEntity>()
                 .HasOne(c => c.Participant2)
-                .WithMany(ct => ct.BracketsParticipants2)
-                .OnDelete(DeleteBehavior.SetNull);
-            
+            .WithMany(ct => ct.BracketsParticipants2)
+            .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<BracketEntity>()
                 .HasOne(c => c.Round)
                 .WithMany(ct => ct.Brackets)
-                .OnDelete(DeleteBehavior.SetNull);
-            
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<RoundEntity>()
                 .HasOne(c => c.Tournament)
                 .WithMany(ct => ct.Rounds)
-                .OnDelete(DeleteBehavior.SetNull);
-            
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<TournamentEntity>()
                 .HasOne(c => c.User)
                 .WithMany(ct => ct.Tournaments)
-                .OnDelete(DeleteBehavior.SetNull);
-            
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<TournamentUserEntity>()
                 .HasKey(ol => new { ol.TournamentId, ol.UserId });
-            
+
             modelBuilder.Entity<TournamentUserEntity>()
                 .HasOne(ol => ol.Tournament)
                 .WithMany(o => o.TournamentUsers)
                 .HasForeignKey(ol => ol.TournamentId);
-            
+
             modelBuilder.Entity<TournamentUserEntity>()
                 .HasOne(ol => ol.User)
                 .WithMany(o => o.TournamentUsers)
                 .HasForeignKey(ol => ol.UserId);
-            
-            
-            
+
+
+
         }
     }
 }

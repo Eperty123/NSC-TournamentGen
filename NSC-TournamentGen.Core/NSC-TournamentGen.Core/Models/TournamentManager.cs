@@ -35,6 +35,66 @@ namespace NSC_TournamentGen.Core.Models
             };
         }
 
+        public Tournament AssignWinnersForNextRound(int tournamentId)
+        {
+            var tournament = _tournamentService.GetTournament(tournamentId);
+            if (tournament != null)
+            {
+                var allRounds = tournament.Rounds;
+                var unfinishedRounds = allRounds.Where(x => !IsRoundComplete(x)).ToList();
+                var finishedRounds = allRounds.Where(x => IsRoundComplete(x)).ToList();
+                var currentRound = unfinishedRounds.FirstOrDefault();
+
+                if (currentRound != null)
+                {
+                    // Assign winners from each bracket to the next round.
+                    for (int i = 0; i < currentRound.Brackets.Count; i++)
+                    {
+                        var bracket = currentRound.Brackets[i];
+                        if (bracket.WinnerId > 0)
+                        {
+                            var winner = bracket.Participant1 != null && bracket.Participant1.Id == bracket.WinnerId ? bracket.Participant1 :
+                                bracket.Participant2 != null && bracket.Participant2.Id == bracket.WinnerId ? bracket.Participant2 : null;
+
+                            // Found winner, assign it to the next round's corresponding bracket.
+                            if (winner != null)
+                            {
+                                var validRoundIndex = tournament.CurrentRoundId % allRounds.Count;
+                                var nextRound = allRounds[validRoundIndex + 1];
+                                var nextBracket = nextRound.Brackets[i];
+                                if (nextRound != null && nextBracket != null)
+                                {
+                                    switch (GetAvailableSlot(nextBracket))
+                                    {
+                                        // Participant 1
+                                        case 0:
+                                            nextBracket.Participant1 = winner;
+                                            nextBracket.Participant1Id = winner.Id;
+                                            break;
+
+                                        // Participant 2
+                                        case 1:
+                                            nextBracket.Participant2 = winner;
+                                            nextBracket.Participant2Id = winner.Id;
+                                            break;
+                                    }
+                                }
+
+                                nextRound.Brackets[i] = nextBracket;
+                            }
+                        }
+                    }
+                }
+                return tournament;
+            }
+            return null;
+        }
+
+        public int GetAvailableSlot(Bracket bracket)
+        {
+            return bracket.Participant1Id == 0 ? 0 : bracket.Participant2Id == 0 ? 1 : -1;
+        }
+
         public Bracket UpdateBracketWinner(int tournamentId, int roundId, int participantId)
         {
             var tournament = _tournamentService.GetTournament(tournamentId);
@@ -59,7 +119,7 @@ namespace NSC_TournamentGen.Core.Models
             var players = participants.Count;
             var bracketsList = new List<Bracket>();
             var roundList = new List<Round>();
-            int id = 0;
+            int id = 1;
 
             if (players == 4 || players == 8 || players == 16 || players == 32)
             {
@@ -181,43 +241,8 @@ namespace NSC_TournamentGen.Core.Models
                 Name = "Round 1",
                 Brackets = bracketsList
             };
-
-        public List<Round> MakeAllBracketAfterFirstRound(List<string> participants)
-        {
-            var t = TournamentNumber;
-            var players = participants.Count;
-            var bracketsList = new List<Bracket>();
-            var roundList = new List<Round>();
-
-            if (players == 4 || players == 8 || players == 16 || players == 32)
-            {
-                t = t / 2;
-            }
-            var rounds = t;
-            
-            t = t / 2;
-
-            while (rounds > 1)
-            {
-                for (int i = 0; i < t; i++)
-                {
-                    var bracket = new Bracket();
-                    bracketsList.Add(bracket);
-                }
-                var round = new Round
-                {
-                    Name = "skal laves",
-                    Brackets = new List<Bracket>(bracketsList)
-                };
-                bracketsList.Clear();
-                rounds /= 2;
-                t /=2 ;
-                roundList.Add(round);
-            }
-
-            return roundList;
         }
-  
+
         public List<string> MakeRandomList(List<string> participants)
         {
             var random = new Random();

@@ -49,6 +49,7 @@ namespace NSC_TournamentGen.Converters
                     Rounds = tournamentDto.Rounds,
                 }
             }).ToList();
+            tournamentDto.CurrentRoundId = tournament.CurrentRoundId;
             return tournamentDto;
         }
 

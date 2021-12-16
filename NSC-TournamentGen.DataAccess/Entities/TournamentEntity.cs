@@ -8,7 +8,7 @@ namespace NSC_TournamentGen.DataAccess.Entities
         public string Name { get; set; }
 
         public List<TournamentUserEntity> TournamentUsers { get; set; }
-
+        public int CurrentRoundId { get; set; }
         public List<RoundEntity> Rounds { get; set; }
         public int UserId { get; set; }
         public UserEntity User { get; set; }

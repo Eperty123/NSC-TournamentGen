@@ -156,6 +156,8 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                         Id = tournamentEntity.UserId,
                         Username = tournamentEntity.User.Username
                     }
+                    ,
+                    CurrentRoundId = tournamentEntity.CurrentRoundId,
                 };
                 tournamentList.Add(tournament);
             }
@@ -189,7 +191,6 @@ namespace NSC_TournamentGen.DataAccess.Repositories
 
             if (foundTournament != null)
             {
-                // TODO: Fix wrong bracket id being updated.
                 var desiredRound = foundTournament.Rounds.FirstOrDefault(x => x.Id == roundId);
                 var desiredBracket = desiredRound.Brackets.FirstOrDefault(x => x.Id == bracketId);
                 var desiredWinner = desiredBracket.WinnerId = participantId;
@@ -223,7 +224,8 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                             WinnerId = bracket.WinnerId,
 
                         }).ToList()
-                    }).ToList()
+                    }).ToList(),
+                    CurrentRoundId = foundTournament.CurrentRoundId,
                 };
             }
 
@@ -245,20 +247,22 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                     {
                         Participant1 = new ParticipantEntity
                         {
-                            Id = (int)bracket.Participant1?.Id,
+                            //Id = (int)bracket.Participant1?.Id,
                             Name = bracket.Participant1?.Name,
                         },
                         Participant2 = new ParticipantEntity
                         {
-                            Id = (int)bracket.Participant2?.Id,
+                            //Id = (int)bracket.Participant2?.Id,
                             Name = bracket.Participant2?.Name,
                         },
                         Participant1Id = (int)bracket.Participant1?.Id,
                         Participant2Id = (int)bracket.Participant2?.Id,
                         WinnerId = bracket.WinnerId,
 
-                    }).ToList()
+                    }).ToList(),
                 }).ToList();
+
+                foundTournament.CurrentRoundId = tournament.CurrentRoundId;
 
                 // Update the found tournament in the database.
                 //_ctx.Tournaments.Update(foundTournament);
@@ -292,8 +296,10 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                             Participant2Id = (int)bracket.Participant2?.Id,
                             WinnerId = bracket.WinnerId,
 
+
                         }).ToList()
-                    }).ToList()
+                    }).ToList(),
+                    CurrentRoundId = foundTournament.CurrentRoundId,
                 };
             }
 
@@ -344,6 +350,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                     }).ToList()
                 }).ToList(),
                 UserId = 1,
+                CurrentRoundId = 1,
             });
             _ctx.SaveChanges();
 

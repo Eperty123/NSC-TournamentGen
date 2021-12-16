@@ -45,7 +45,8 @@ namespace NSC_TournamentGen.Domain.Services
 
         public Tournament MakeWinner(int tournamentId, int roundId, int bracketId, int participantId)
         {
-            return _tournamentRepository.MakeWinner(tournamentId, roundId, bracketId, participantId);
+            var updatedTournament = _tournamentRepository.MakeWinner(tournamentId, roundId, bracketId, participantId);
+            return _tournamentRepository.UpdateTournament(updatedTournament.Id, _tournamentManager.AssignWinnersForNextRound(updatedTournament.Id));
         }
     }
 }

@@ -190,18 +190,9 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             if (foundTournament != null)
             {
                 // TODO: Fix wrong bracket id being updated.
-                foreach (var round in foundTournament.Rounds)
-                {
-                    if (round.Id == roundId)
-                    {
-                        foreach (var bracket in round.Brackets)
-                        {
-                            if (bracket.Id == bracketId)
-                                bracket.WinnerId = participantId;
-                        }
-                    }
-                }
-
+                var desiredRound = foundTournament.Rounds.FirstOrDefault(x => x.Id == roundId);
+                var desiredBracket = desiredRound.Brackets.FirstOrDefault(x => x.Id == bracketId);
+                var desiredWinner = desiredBracket.WinnerId = participantId;
 
                 _ctx.SaveChanges();
 
@@ -315,10 +306,12 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             var roundEntities = _ctx.Rounds;
             var bracketEntities = _ctx.Brackets;
             var userEntities = _ctx.Users;
+            var participantEntities = _ctx.Participants;
             var newTournamentId = tournamentEntities.Count() + 1;
             var newRoundId = roundEntities.Count() + 1;
             var newBracketId = bracketEntities.Count() + 1;
             var newUserId = userEntities.Count() + 1;
+            var newParticiapntId = participantEntities.Count() + 1;
 
 
             var tournamentEntity = new TournamentEntity()
@@ -333,18 +326,18 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 Rounds = tournament.Rounds.Select(round => new RoundEntity
                 {
                     Name = round.Name,
-                    Id = newRoundId++ + 1,
+                    Id = newRoundId++,
                     Brackets = round.Brackets.Select(bracket => new BracketEntity
                     {
-                        Id = newBracketId++ + 1,
+                        Id = newBracketId++,
                         Participant1 = new ParticipantEntity
                         {
-                            Id = bracket.Participant1Id,
+                            Id = newParticiapntId++,
                             Name = bracket.Participant1?.Name,
                         },
                         Participant2 = new ParticipantEntity
                         {
-                            Id = bracket.Participant2Id,
+                            Id = newParticiapntId++,
                             Name = bracket.Participant2?.Name,
                         }
 

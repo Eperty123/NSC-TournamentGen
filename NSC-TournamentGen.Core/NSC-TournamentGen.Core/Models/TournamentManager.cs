@@ -64,7 +64,9 @@ namespace NSC_TournamentGen.Core.Models
         }
 
 */
-        public Tournament MakeFirstRound(List<string> participants)
+
+
+        public Round MakeFirstRound(List<string> participants)
         {
             var randomList = MakeRandomList(participants);
             var amountOfParticipants = randomList.Count;
@@ -148,17 +150,12 @@ namespace NSC_TournamentGen.Core.Models
                     }
                 }
             }
-            var round = new Round
+            return new Round
             {
                 Name = "Round 1",
                 Brackets = bracketsList
             };
-            return new Tournament
-            {
-                Name = "Tha Tournament",
-                Rounds = new List<Round> {round},
-                UserId = 1
-            };
+            
         }
 
 

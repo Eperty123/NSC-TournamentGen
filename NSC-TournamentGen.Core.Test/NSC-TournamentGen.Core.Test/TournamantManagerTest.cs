@@ -42,5 +42,21 @@ namespace NSC_TournamentGen.Core.Test
             Assert.Equal(expected:5,manager.AmountOfBracket);
             
         }
+        
+        [Fact]
+        void TournamentManager_CanGenerateSingleEliminationWithfifteenParticipants()
+        {
+            var tInput = new TournamentInput()
+            {
+                Participants = "Svend\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus\nCarlo\nRasmus\nNiko\nCarlo\nRasmus"
+            };
+            var participantList = tInput.Participants.Split('\n').ToList();
+            tInput.AmountOfParticipants = participantList.Count;
+            var manager = new TournamentManager();
+            manager.MakeTournament(tInput,participantList);
+            Assert.Equal(expected:8,manager.AmountOfBracket);
+            
+        }
+        
     }
 }

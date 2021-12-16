@@ -10,5 +10,6 @@ namespace NSC_TournamentGen.Domain.IRepositories
         Tournament DeleteTournament(int id);
         Tournament UpdateTournament(int id, Tournament tournament);
         Tournament CreateTournament(Tournament tournament);
+        public Tournament MakeWinner(int tournamentId, int roundId, int bracketId, int participantId);
     }
 }

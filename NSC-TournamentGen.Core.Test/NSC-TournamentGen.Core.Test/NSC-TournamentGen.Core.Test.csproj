@@ -29,6 +29,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\NSC-TournamentGen.Core\NSC-TournamentGen.Core\NSC-TournamentGen.Core.csproj" />
+      <ProjectReference Include="..\..\NSC-TournamentGen.Core\NSC-TournamentGen.Domain\NSC-TournamentGen.Domain.csproj" />
     </ItemGroup>
 
 </Project>

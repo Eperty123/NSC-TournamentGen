@@ -1,21 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NSC_TournamentGen.Core.IServices;
+using NSC_TournamentGen.Core.Models;
 using NSC_TournamentGen.DataAccess;
 using NSC_TournamentGen.DataAccess.Repositories;
 using NSC_TournamentGen.Domain.IRepositories;
@@ -129,6 +123,7 @@ namespace NSC_TournamentGen
             services.AddScoped<ISecurityRepository, SecurityRepository>();
             services.AddScoped<IDbSeeder, DbSeeder>();
             services.AddScoped<IAuthDbSeeder, AuthDbSeeder>();
+            services.AddScoped<TournamentManager>();
 
             services.AddDbContext<MainDbContext>(opt =>
             {

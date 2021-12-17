@@ -10,5 +10,6 @@
         public int RoundId { get; set; }
         public RoundDto Round { get; set; }
         public int WinnerId { get; set; }
+        public bool IsExecuted { get; set; }
     }
 }

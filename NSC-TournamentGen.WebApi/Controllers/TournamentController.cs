@@ -45,29 +45,28 @@ namespace NSC_TournamentGen.Controllers
             return BadRequest("Failed to update tournament! Please try again.");
         }
 
-        //[HttpGet]
-        //public ActionResult<TournamentsDto> ReadAll()
-        //{
-        //    try
-        //    {
-        //        var tournaments = _tournamentService.GetAllTournaments()
-        //            .Select(tournament => new TournamentDto
-        //            {
-        //                Id = tournament.Id,
-        //                Name = tournament.Name,
-        //                Type = tournament.Type,
-        //            }).ToList();
+        [HttpGet]
+        public ActionResult<TournamentsDto> ReadAll()
+        {
+            try
+            {
+                var tournaments = _tournamentService.GetAllTournaments()
+                    .Select(tournament => new TournamentDto
+                    {
+                        Id = tournament.Id,
+                        Name = tournament.Name,
+                    }).ToList();
 
-        //        return Ok(new TournamentsDto
-        //        {
-        //            TournamentList = tournaments,
-        //        });
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return StatusCode(500, "sikke noget lort");
-        //    }
-        //}
+                return Ok(new TournamentsDto
+                {
+                    TournamentList = tournaments,
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "sikke noget lort");
+            }
+        }
 
         // GET api/Tournament/5 -- READ By Id
         [HttpGet("{id}")]

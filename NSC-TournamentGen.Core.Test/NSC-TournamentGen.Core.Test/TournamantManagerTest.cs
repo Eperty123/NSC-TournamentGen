@@ -2,6 +2,8 @@
 using Moq;
 using NSC_TournamentGen.Core.IServices;
 using NSC_TournamentGen.Core.Models;
+using NSC_TournamentGen.Domain;
+using NSC_TournamentGen.Domain.IRepositories;
 using NSC_TournamentGen.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace NSC_TournamentGen.Core.Test
     public class TournamantManagerTest
     {
         Mock<ITournamentService> _service = new Mock<ITournamentService>();
+        Mock<ITournamentRepository> _repository = new Mock<ITournamentRepository>();
 
         [Fact]
         void TournamentManager_CanGenerateSingleEliminationWithFourParticipants()
@@ -29,7 +32,7 @@ namespace NSC_TournamentGen.Core.Test
 
 
             var participantList = tInput.Participants.Split('\n').ToList();
-            var manager = new TournamentManager(_service.Object);
+            var manager = new TournamentManager(_service.Object, _repository.Object);
             manager.MakeTournament(tInput);
             Assert.Equal(expected: 3, manager.AmountOfBrackets);
 
@@ -43,7 +46,7 @@ namespace NSC_TournamentGen.Core.Test
                 Participants = "Carlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus\nCarlo\nRasmus"
             };
             var participantList = tInput.Participants.Split('\n').ToList();
-            var manager = new TournamentManager(_service.Object);
+            var manager = new TournamentManager(_service.Object, _repository.Object);
             manager.MakeTournament(tInput);
             Assert.Equal(expected: 12, manager.AmountOfBrackets);
         }
@@ -56,15 +59,15 @@ namespace NSC_TournamentGen.Core.Test
                 Participants = "Carlo\nRasmus\nNiko\nCarlo\nRasmus\nNiko\nCarlo\nRasmus"
             };
             var participantList = tInput.Participants.Split('\n').ToList();
-            var manager = new TournamentManager(_service.Object);
+            var manager = new TournamentManager(_service.Object, _repository.Object);
             manager.MakeTournament(tInput);
             var rounds = manager.GenerateAllRounds(participantList);
 
             Console.WriteLine(string.Join(",", rounds));
             Assert.Equal(3, rounds.Count);
         }
-        
-       
-        
+
+
+
     }
 }

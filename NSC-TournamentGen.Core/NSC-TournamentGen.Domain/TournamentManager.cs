@@ -30,7 +30,8 @@ namespace NSC_TournamentGen.Domain
         public Tournament MakeTournament(TournamentInput tournamentInput)
         {
             Participants = new List<string>(tournamentInput.Participants.Split('\n'));
-            CalculateTournamentNumber(Participants.Count); // need info about Amount of Participant -> tournament input      
+            CalculateTournamentNumber(Participants.Count); // need info about Amount of Participant -> tournament input
+            CalculateAmountOfBracket(Participants);
             var rounds = GenerateAllRounds(Participants);
             return new Tournament()
             {
@@ -170,6 +171,34 @@ namespace NSC_TournamentGen.Domain
 
 
             return testList.ToList();
+        }
+        
+        public int CalculateAmountOfBracket(List<string> participants)
+        {
+            var amountOfParticipant = participants.Count;
+            var t = TournamentNumber;
+            var amountOfBracketInPreRounds = Math.Ceiling((double) amountOfParticipant)/2;
+            var totalbracket = (int)amountOfBracketInPreRounds + t - 1;
+
+            if (amountOfParticipant == 32)
+            {
+                return AmountOfBrackets = t-1;
+            }
+            if (amountOfParticipant == 16)
+            {
+                return AmountOfBrackets = t-1;
+            }
+            if (amountOfParticipant == 8)
+            {
+                return AmountOfBrackets = t-1;
+            }
+            if (amountOfParticipant == 4)
+            {
+                return AmountOfBrackets = t-1;
+            }
+            return AmountOfBrackets = totalbracket;
+
+
         }
 
         public int CalculateTournamentNumber(int amountOfParticipants)

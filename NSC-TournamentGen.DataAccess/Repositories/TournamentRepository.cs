@@ -53,41 +53,41 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 }
             }
 
-            var tournament = new Tournament
-            {
-                Id = tournamentEntity.Id,
-                Name = tournamentEntity.Name,
-                Rounds = tournamentEntity.Rounds.Select(round => new Round
-                {
-                    Name = round.Name,
-                    Id = round.Id,
-                    Brackets = round.Brackets.Select(bracket => new Bracket
-                    {
-                        Id = bracket.Id,
-                        Participant1 = new Participant
-                        {
-                            Id = (int)bracket.Participant1?.Id,
-                            Name = bracket.Participant1?.Name,
-                        },
-                        Participant2 = new Participant
-                        {
-                            Id = (int)bracket.Participant2?.Id,
-                            Name = bracket.Participant2?.Name,
-                        },
-                        Participant1Id = (int)bracket.Participant1?.Id,
-                        Participant2Id = (int)bracket.Participant2?.Id,
-                        WinnerId = bracket.WinnerId,
+            //var tournament = new Tournament
+            //{
+            //    Id = tournamentEntity.Id,
+            //    Name = tournamentEntity.Name,
+            //    Rounds = tournamentEntity.Rounds.Select(round => new Round
+            //    {
+            //        Name = round.Name,
+            //        Id = round.Id,
+            //        Brackets = round.Brackets.Select(bracket => new Bracket
+            //        {
+            //            Id = bracket.Id,
+            //            Participant1 = new Participant
+            //            {
+            //                Id = (int)bracket.Participant1?.Id,
+            //                Name = bracket.Participant1?.Name,
+            //            },
+            //            Participant2 = new Participant
+            //            {
+            //                Id = (int)bracket.Participant2?.Id,
+            //                Name = bracket.Participant2?.Name,
+            //            },
+            //            Participant1Id = (int)bracket.Participant1?.Id,
+            //            Participant2Id = (int)bracket.Participant2?.Id,
+            //            WinnerId = bracket.WinnerId,
 
-                    }).ToList()
-                }).ToList(),
-                User = new User
-                {
-                    Id = tournamentEntity.UserId,
-                    Username = tournamentEntity.User.Username
-                }
-            };
+            //        }).ToList()
+            //    }).ToList(),
+            //    User = new User
+            //    {
+            //        Id = tournamentEntity.UserId,
+            //        Username = tournamentEntity.User.Username
+            //    }
+            //};
 
-            return tournament;
+            return tournamentEntity.ToModel();
         }
 
         public List<Tournament> ReadAllTournaments()
@@ -124,42 +124,42 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                     }
                 }
 
-                var tournament = new Tournament
-                {
-                    Id = tournamentEntity.Id,
-                    Name = tournamentEntity.Name,
-                    Rounds = tournamentEntity.Rounds.Select(round => new Round
-                    {
-                        Name = round.Name,
-                        Id = round.Id,
-                        Brackets = round.Brackets.Select(bracket => new Bracket
-                        {
-                            Id = bracket.Id,
-                            Participant1 = new Participant
-                            {
-                                Id = (int)bracket.Participant1?.Id,
-                                Name = bracket.Participant1?.Name,
-                            },
-                            Participant2 = new Participant
-                            {
-                                Id = (int)bracket.Participant2?.Id,
-                                Name = bracket.Participant2?.Name,
-                            },
-                            Participant1Id = (int)bracket.Participant1?.Id,
-                            Participant2Id = (int)bracket.Participant2?.Id,
-                            WinnerId = bracket.WinnerId,
+                //var tournament = new Tournament
+                //{
+                //    Id = tournamentEntity.Id,
+                //    Name = tournamentEntity.Name,
+                //    Rounds = tournamentEntity.Rounds.Select(round => new Round
+                //    {
+                //        Name = round.Name,
+                //        Id = round.Id,
+                //        Brackets = round.Brackets.Select(bracket => new Bracket
+                //        {
+                //            Id = bracket.Id,
+                //            Participant1 = new Participant
+                //            {
+                //                Id = (int)bracket.Participant1?.Id,
+                //                Name = bracket.Participant1?.Name,
+                //            },
+                //            Participant2 = new Participant
+                //            {
+                //                Id = (int)bracket.Participant2?.Id,
+                //                Name = bracket.Participant2?.Name,
+                //            },
+                //            Participant1Id = (int)bracket.Participant1?.Id,
+                //            Participant2Id = (int)bracket.Participant2?.Id,
+                //            WinnerId = bracket.WinnerId,
 
-                        }).ToList()
-                    }).ToList(),
-                    User = new User
-                    {
-                        Id = tournamentEntity.UserId,
-                        Username = tournamentEntity.User.Username
-                    }
-                    ,
-                    CurrentRoundId = tournamentEntity.CurrentRoundId,
-                };
-                tournamentList.Add(tournament);
+                //        }).ToList()
+                //    }).ToList(),
+                //    User = new User
+                //    {
+                //        Id = tournamentEntity.UserId,
+                //        Username = tournamentEntity.User.Username
+                //    }
+                //    ,
+                //    CurrentRoundId = tournamentEntity.CurrentRoundId,
+                //};
+                tournamentList.Add(tournamentEntity.ToModel());
             }
 
             return tournamentList;
@@ -198,35 +198,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 _ctx.SaveChanges();
 
                 // Return a *new* Tournament instance from the updated tournament.
-                return new Tournament
-                {
-                    Id = foundTournament.Id,
-                    Name = foundTournament.Name,
-                    Rounds = foundTournament.Rounds.Select(round => new Round
-                    {
-                        Id = round.Id,
-                        Name = round.Name,
-                        Brackets = round.Brackets.Select(bracket => new Bracket
-                        {
-                            Id = bracket.Id,
-                            Participant1 = new Participant
-                            {
-                                Id = (int)bracket.Participant1?.Id,
-                                Name = bracket.Participant1?.Name,
-                            },
-                            Participant2 = new Participant
-                            {
-                                Id = (int)bracket.Participant2?.Id,
-                                Name = bracket.Participant2?.Name,
-                            },
-                            Participant1Id = (int)bracket.Participant1Id,
-                            Participant2Id = (int)bracket.Participant2Id,
-                            WinnerId = bracket.WinnerId,
-
-                        }).ToList()
-                    }).ToList(),
-                    CurrentRoundId = foundTournament.CurrentRoundId,
-                };
+                return foundTournament.ToModel();
             }
 
             return null;
@@ -271,36 +243,7 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                 _ctx.SaveChanges();
 
                 // Return a *new* Tournament instance from the updated tournament.
-                return new Tournament
-                {
-                    Id = foundTournament.Id,
-                    Name = foundTournament.Name,
-                    Rounds = foundTournament.Rounds.Select(round => new Round
-                    {
-                        Id = round.Id,
-                        Name = round.Name,
-                        Brackets = round.Brackets.Select(bracket => new Bracket
-                        {
-                            Id = bracket.Id,
-                            Participant1 = new Participant
-                            {
-                                Id = (int)bracket.Participant1?.Id,
-                                Name = bracket.Participant1?.Name,
-                            },
-                            Participant2 = new Participant
-                            {
-                                Id = (int)bracket.Participant2?.Id,
-                                Name = bracket.Participant2?.Name,
-                            },
-                            Participant1Id = (int)bracket.Participant1?.Id,
-                            Participant2Id = (int)bracket.Participant2?.Id,
-                            WinnerId = bracket.WinnerId,
-
-
-                        }).ToList()
-                    }).ToList(),
-                    CurrentRoundId = foundTournament.CurrentRoundId,
-                };
+                return foundTournament.ToModel();
             }
 
             return null;
@@ -313,50 +256,182 @@ namespace NSC_TournamentGen.DataAccess.Repositories
             var bracketEntities = _ctx.Brackets;
             var userEntities = _ctx.Users;
             var participantEntities = _ctx.Participants;
-            var newTournamentId = tournamentEntities.Count() + 1;
-            var newRoundId = roundEntities.Count() + 1;
-            var newBracketId = bracketEntities.Count() + 1;
-            var newUserId = userEntities.Count() + 1;
-            var newParticiapntId = participantEntities.Count() + 1;
-
+            var newTournamentId = (tournamentEntities.Count() > 0 ? tournamentEntities.ToList().Max(x => x.Id) : tournamentEntities.Count()) + 1;
+            var newRoundId = (roundEntities.Count() > 0 ? roundEntities.ToList().Max(x => x.Id) : roundEntities.Count()) + 1;
+            var newBracketId = (bracketEntities.Count() > 0 ? bracketEntities.ToList().Max(x => x.Id) : bracketEntities.Count()) + 1;
+            var newUserId = (userEntities.Count() > 0 ? userEntities.ToList().Max(x => x.Id) : userEntities.Count()) + 1;
+            var newParticiapntId = (participantEntities.Count() > 0 ? participantEntities.ToList().Max(x => x.Id) : participantEntities.Count()) + 1;
+            var rounds = new List<RoundEntity>();
+            var brackets = new List<BracketEntity>();
 
             var tournamentEntity = new TournamentEntity()
             {
                 Id = newTournamentId,
-                Name = tournament?.Name,
-            };
-            tournamentEntities.Add(new TournamentEntity
-            {
-                Id = newTournamentId,
                 Name = tournament.Name,
-                Rounds = tournament.Rounds.Select(round => new RoundEntity
+                UserId = 1,
+                //CurrentRoundId = 1,
+            };
+            int roundIndex = 0;
+
+            foreach (var round in tournament.Rounds)
+            {
+                int bracketIndex = 0;
+                roundIndex++;
+                foreach (var bracket in round.Brackets)
+                {
+                    bracketIndex++;
+                    var bracketEntity = new BracketEntity()
+                    {
+                        Id = newBracketId++,
+                        IsExecuted = bracket.IsExecuted,
+                    };
+                    ParticipantEntity participant1 = null;
+                    ParticipantEntity participant2 = null;
+
+                    participant1 = new ParticipantEntity()
+                    {
+                        Id = newParticiapntId++,
+                        Name = bracket.Participant1 != null ? bracket.Participant1.Name : null,
+                    };
+
+                    participant2 = new ParticipantEntity()
+                    {
+                        Id = newParticiapntId++,
+                        Name = bracket.Participant2 != null ? bracket.Participant2.Name : null,
+                    };
+
+                    if (bracket.IsExecuted)
+                        bracketEntity.WinnerId = newParticiapntId - 1;
+                    bracketEntity.Participant1 = participant1;
+                    bracketEntity.Participant2 = participant2;
+                    bracketEntity.Participant1Id = participant1.Id;
+                    bracketEntity.Participant2Id = participant2.Id;
+
+                    //if (roundIndex == tournament.Rounds.Count && bracketIndex == round.Brackets.Count)
+                    //    bracketEntity.IsExecuted = true;
+
+                    brackets.Add(bracketEntity);
+                }
+
+                var roundEntity = new RoundEntity()
                 {
                     Name = round.Name,
                     Id = newRoundId++,
-                    Brackets = round.Brackets.Select(bracket => new BracketEntity
-                    {
-                        Id = newBracketId++,
-                        Participant1 = new ParticipantEntity
-                        {
-                            Id = newParticiapntId++,
-                            Name = bracket.Participant1?.Name,
-                        },
-                        Participant2 = new ParticipantEntity
-                        {
-                            Id = newParticiapntId++,
-                            Name = bracket.Participant2?.Name,
-                        }
+                    Brackets = new List<BracketEntity>(brackets),
+                    TournamentId = newTournamentId,
+                };
 
-                    }).ToList()
-                }).ToList(),
-                UserId = 1,
-                CurrentRoundId = 1,
-            });
+                rounds.Add(roundEntity);
+                brackets.Clear();
+            }
+            tournamentEntity.Rounds = rounds;
+
+            tournamentEntities.Add(tournamentEntity);
             _ctx.SaveChanges();
 
             // Modify the id to match the created tournament's.
             tournament.Id = newTournamentId;
             return tournament;
+        }
+
+        public Tournament AssignWinnersForNextRound(int tournamentId, int roundId)
+        {
+            var tournament = _ctx.Tournaments.FirstOrDefault(x => x.Id == tournamentId);
+            if (tournament != null)
+            {
+                tournament.CurrentRoundId = roundId;
+                var allRounds = tournament.Rounds;
+                var currentRound = allRounds.FirstOrDefault(x => x.Id == roundId);
+                var currentRoundIndex = allRounds.IndexOf(currentRound) + 1;
+
+                if (currentRound != null)
+                {
+                    // Assign winners from each bracket to the next round.
+                    for (int i = 0; i < currentRound.Brackets.Count; i++)
+                    {
+                        var bracket = currentRound.Brackets[i];
+                        if (bracket.WinnerId > 0)
+                        {
+                            var winner = bracket.Participant1 != null && bracket.Participant1.Id == bracket.WinnerId ? bracket.Participant1 :
+                                bracket.Participant2 != null && bracket.Participant2.Id == bracket.WinnerId ? bracket.Participant2 : null;
+
+                            // Found winner, assign it to the next round's corresponding bracket.
+                            if (winner != null)
+                            {
+                                var validRoundIndex = currentRoundIndex % allRounds.Count;
+                                var nextRound = allRounds[validRoundIndex];
+                                var validBracketIndex = (i > 0 ? i - 1 : i) % nextRound.Brackets.Count;
+                                var dividedIndex = nextRound.Brackets.Count / 2;
+                                var evenBrackets = currentRound.Brackets.Count == nextRound.Brackets.Count;
+
+                                // Even number work but odd does not.
+                                //var nextBracket = currentRoundIndex > (dividedIndex % 2 == 0 ? dividedIndex : dividedIndex - 1) ? GetAvailableBracket(nextRound) : nextRound.Brackets[!evenBrackets ? validBracketIndex : i];
+                                
+                                // Odd number work but even does not.
+                                var nextBracket = currentRoundIndex > (dividedIndex % 2 == 0 ? dividedIndex : dividedIndex % 2 == 1 ? dividedIndex : dividedIndex - i) ? GetAvailableBracket(nextRound) : nextRound.Brackets[!evenBrackets ? validBracketIndex : i];
+                                var alreadyRegistered = IsAlreadyRegisteredOnBracket(nextBracket, winner) || IsParticipantAssignedABracket(nextRound, winner.Id);
+                                var availableSlot = GetAvailableSlot(nextBracket);
+
+                                if (nextRound != null && nextBracket != null && !alreadyRegistered)
+                                {
+                                    switch (availableSlot)
+                                    {
+                                        // Participant 1
+                                        case 0:
+                                            nextBracket.Participant1 = winner;
+                                            nextBracket.Participant1Id = winner.Id;
+                                            break;
+
+                                        // Participant 2
+                                        case 1:
+                                            nextBracket.Participant2 = winner;
+                                            nextBracket.Participant2Id = winner.Id;
+                                            break;
+
+                                            // No spots left, too bad.
+                                    }
+
+                                    // Finish this bracket.
+                                    bracket.IsExecuted = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                _ctx.SaveChanges();
+                return tournament.ToModel();
+            }
+            return null;
+        }
+
+        public bool IsRoundComplete(RoundEntity round)
+        {
+            return round != null && round.Brackets.All(x => x.WinnerId > 0);
+        }
+
+        public bool IsAlreadyRegisteredOnBracket(BracketEntity bracket, ParticipantEntity participant)
+        {
+            return bracket != null && participant != null && ((bracket.Participant1 != null && bracket.Participant1.Id == participant.Id ||
+                bracket.Participant2 != null && bracket.Participant2.Id == participant.Id));
+        }
+
+
+        public bool IsParticipantAssignedABracket(RoundEntity round, int participantId)
+        {
+            return round.Brackets.Any(x => x.Participant1.Id == participantId || x.Participant2.Id == participantId);
+        }
+
+        public int GetAvailableSlot(BracketEntity bracket)
+        {
+            return bracket != null && (bracket.Participant1 == null || bracket.Participant1 != null && string.IsNullOrEmpty(bracket.Participant1.Name)) ? 0 :
+                bracket != null && (bracket.Participant2 == null || bracket.Participant2 != null && string.IsNullOrEmpty(bracket.Participant2.Name)) ? 1
+                : -1;
+        }
+
+        public BracketEntity GetAvailableBracket(RoundEntity round)
+        {
+            return round.Brackets.FirstOrDefault(x => string.IsNullOrEmpty(x.Participant1?.Name) || string.IsNullOrEmpty(x.Participant2?.Name));
         }
     }
 }

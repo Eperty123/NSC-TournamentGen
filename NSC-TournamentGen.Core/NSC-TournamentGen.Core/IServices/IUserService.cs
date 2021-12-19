@@ -9,6 +9,6 @@ namespace NSC_TournamentGen.Core.IServices
         User CreateUser(string username, string password);
         User GetUser(int id);
         User DeleteUser(int id);
-        object UpdateUser(int id, User user);
+        User UpdateUser(int id, User user);
     }
 }

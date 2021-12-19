@@ -52,41 +52,6 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                     }
                 }
             }
-
-            //var tournament = new Tournament
-            //{
-            //    Id = tournamentEntity.Id,
-            //    Name = tournamentEntity.Name,
-            //    Rounds = tournamentEntity.Rounds.Select(round => new Round
-            //    {
-            //        Name = round.Name,
-            //        Id = round.Id,
-            //        Brackets = round.Brackets.Select(bracket => new Bracket
-            //        {
-            //            Id = bracket.Id,
-            //            Participant1 = new Participant
-            //            {
-            //                Id = (int)bracket.Participant1?.Id,
-            //                Name = bracket.Participant1?.Name,
-            //            },
-            //            Participant2 = new Participant
-            //            {
-            //                Id = (int)bracket.Participant2?.Id,
-            //                Name = bracket.Participant2?.Name,
-            //            },
-            //            Participant1Id = (int)bracket.Participant1?.Id,
-            //            Participant2Id = (int)bracket.Participant2?.Id,
-            //            WinnerId = bracket.WinnerId,
-
-            //        }).ToList()
-            //    }).ToList(),
-            //    User = new User
-            //    {
-            //        Id = tournamentEntity.UserId,
-            //        Username = tournamentEntity.User.Username
-            //    }
-            //};
-
             return tournamentEntity.ToModel();
         }
 
@@ -123,42 +88,6 @@ namespace NSC_TournamentGen.DataAccess.Repositories
                         }
                     }
                 }
-
-                //var tournament = new Tournament
-                //{
-                //    Id = tournamentEntity.Id,
-                //    Name = tournamentEntity.Name,
-                //    Rounds = tournamentEntity.Rounds.Select(round => new Round
-                //    {
-                //        Name = round.Name,
-                //        Id = round.Id,
-                //        Brackets = round.Brackets.Select(bracket => new Bracket
-                //        {
-                //            Id = bracket.Id,
-                //            Participant1 = new Participant
-                //            {
-                //                Id = (int)bracket.Participant1?.Id,
-                //                Name = bracket.Participant1?.Name,
-                //            },
-                //            Participant2 = new Participant
-                //            {
-                //                Id = (int)bracket.Participant2?.Id,
-                //                Name = bracket.Participant2?.Name,
-                //            },
-                //            Participant1Id = (int)bracket.Participant1?.Id,
-                //            Participant2Id = (int)bracket.Participant2?.Id,
-                //            WinnerId = bracket.WinnerId,
-
-                //        }).ToList()
-                //    }).ToList(),
-                //    User = new User
-                //    {
-                //        Id = tournamentEntity.UserId,
-                //        Username = tournamentEntity.User.Username
-                //    }
-                //    ,
-                //    CurrentRoundId = tournamentEntity.CurrentRoundId,
-                //};
                 tournamentList.Add(tournamentEntity.ToModel());
             }
 

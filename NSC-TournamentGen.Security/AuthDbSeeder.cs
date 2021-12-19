@@ -24,8 +24,8 @@ namespace NSC_TournamentGen.Security
 
             _authCtx.LoginUsers.AddRange(
                 new LoginUserEntity { Username = "Carlo", Role = "Administrator", HashedPassword = _securityService.HashPassword("test", Encoding.ASCII.GetBytes("Onii-chan")), Salt = "Onii-chan" },
-                new LoginUserEntity { Username = "Niko", Role = "User", HashedPassword = _securityService.HashPassword("test", Encoding.ASCII.GetBytes("Obel")), Salt = "Obel" },
-                new LoginUserEntity { Username = "Svend", Role = "User", HashedPassword = _securityService.HashPassword("test", Encoding.ASCII.GetBytes("Hallum")), Salt = "Hallum" }
+                new LoginUserEntity { Username = "Niko", Role = "Administrator", HashedPassword = _securityService.HashPassword("test", Encoding.ASCII.GetBytes("Obel")), Salt = "Obel" },
+                new LoginUserEntity { Username = "Svend", Role = "Administrator", HashedPassword = _securityService.HashPassword("test", Encoding.ASCII.GetBytes("Hallum")), Salt = "Hallum" }
             );
 
             _authCtx.SaveChanges();

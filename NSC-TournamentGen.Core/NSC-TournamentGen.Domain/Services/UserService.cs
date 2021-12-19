@@ -34,7 +34,7 @@ namespace NSC_TournamentGen.Domain.Services
             return _userRepository.DeleteUser(id);
         }
 
-        public object UpdateUser(int id, User user)
+        public User UpdateUser(int id, User user)
         {
             return _userRepository.UpdateUser(id, user);
         }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NSC_TournamentGen.Core.Models;
 using NSC_TournamentGen.DataAccess.Entities;
 
 namespace NSC_TournamentGen.DataAccess
@@ -15,20 +14,9 @@ namespace NSC_TournamentGen.DataAccess
         public DbSet<BracketEntity> Brackets { get; set; }
         public DbSet<TournamentUserEntity> TournamentUsers { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.EnableSensitiveDataLogging();
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<BracketEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
-            //modelBuilder.Entity<ParticipantEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
-            //modelBuilder.Entity<RoundEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
-            //modelBuilder.Entity<TournamentEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
-            //modelBuilder.Entity<UserEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
 
             modelBuilder.Entity<BracketEntity>()
                 .HasOne(c => c.Participant1)

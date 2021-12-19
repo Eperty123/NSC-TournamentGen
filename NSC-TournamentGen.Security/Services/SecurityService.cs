@@ -37,7 +37,7 @@ namespace NSC_TournamentGen.Security.Services
 
                 // Role based claim. We need the IdentityOptions with claims of
                 // a RoleClaimType to add the roles.
-                // Needed to make role-based authentication to work.
+                // Needed to make role-based authentication work.
                 // Remember to add AddAuthorization policy in start up file, bro!
                 var claims = new List<Claim>
                 {
